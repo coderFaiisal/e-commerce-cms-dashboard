@@ -2,15 +2,15 @@ import { baseApi } from "./baseApi";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    userSignUp: build.mutation({
+    adminSignUp: build.mutation({
       query: (signUpData) => ({
         url: "/auth/sign-up",
         method: "POST",
         data: signUpData,
       }),
-      invalidatesTags: ["user"],
+      invalidatesTags: ["admin"],
     }),
   }),
 });
 
-export const { useUserSignUpMutation } = authApi;
+export const { useAdminSignUpMutation } = authApi;
