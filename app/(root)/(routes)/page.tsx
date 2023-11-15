@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-const RootPage = () => {
+const SetupPage = () => {
   return (
     <div>
       <Button>click</Button>
@@ -8,4 +8,4 @@ const RootPage = () => {
   );
 };
 
-export default RootPage;
+export default SetupPage;
