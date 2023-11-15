@@ -8,9 +8,9 @@ export default async function SetupLayout({
 }) {
   const admin = isLoggedIn();
 
-  // if (!admin) {
-  //   redirect("/signIn");
-  // }
+  if (!admin) {
+    redirect("/signIn");
+  }
 
   return <>{children}</>;
 }
