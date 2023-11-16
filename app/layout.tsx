@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/providers/Providers";
 import { Toaster } from "sonner";
+import { ModalProvider } from "@/providers/ModalProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <body className={inter.className}>
           {children}
           <Toaster position="top-right" closeButton richColors />
+          <ModalProvider />
         </body>
       </html>
     </Providers>

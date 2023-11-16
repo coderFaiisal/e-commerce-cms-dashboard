@@ -1,6 +1,6 @@
 "use client";
 
-import { getAdminInfo, isLoggedIn } from "@/services/auth.service";
+import { getAdminInfo } from "@/services/auth.service";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
