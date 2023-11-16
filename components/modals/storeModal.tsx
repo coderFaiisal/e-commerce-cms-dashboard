@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import * as z from "zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 
 import { Modal } from "@/components/ui/modal";
 import {
@@ -18,14 +17,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { handleClose } from "@/redux/features/store/storeSlice";
+import { useCreateStoreMutation } from "@/redux/features/store/storeApi";
 
 export const StoreModal = () => {
   const [loading, setLoading] = useState(false);
-
   const { isOpen } = useAppSelector((state) => state.store);
   const dispatch = useAppDispatch();
+  const [createStore, { data }] = useCreateStoreMutation();
 
   const onClose = () => dispatch(handleClose());
 
@@ -43,8 +44,11 @@ export const StoreModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/stores", values);
-      window.location.assign(`/${response?.data?._id}`);
+      createStore(values);
+      if (data?._id) {
+        toast.success("Store created successfully");
+        window.location.assign(`/${data?._id}`);
+      }
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
