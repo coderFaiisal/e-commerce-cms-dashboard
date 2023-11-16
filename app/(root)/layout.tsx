@@ -11,6 +11,7 @@ export default function SetupLayout({
   children: React.ReactNode;
 }) {
   const [isMounted, setIsMounted] = useState(false);
+  const { data: store } = useIsStoreExistQuery({});
 
   useEffect(() => {
     setIsMounted(true);
@@ -25,13 +26,9 @@ export default function SetupLayout({
   if (!admin) {
     redirect("/signIn");
   }
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data: store } = useIsStoreExistQuery({});
-
   if (store) {
     redirect(`/${store._id}`);
+  } else {
+    return <>{children}</>;
   }
-
-  return <>{children}</>;
 }
