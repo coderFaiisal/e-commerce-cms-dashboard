@@ -11,24 +11,31 @@ export default function SetupLayout({
   children: React.ReactNode;
 }) {
   const [isMounted, setIsMounted] = useState(false);
-  const { data: store } = useIsStoreExistQuery({});
+  const [loading, setLoading] = useState(true);
+  const admin = getAdminInfo();
+  const { data: store, isLoading } = useIsStoreExistQuery({});
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) {
+  useEffect(() => {
+    if (!isLoading) {
+      setLoading(false);
+    }
+  }, [isLoading]);
+
+  if (!isMounted || loading) {
     return null;
   }
-
-  const admin = getAdminInfo();
 
   if (!admin) {
     redirect("/signIn");
   }
+
   if (store) {
     redirect(`/${store._id}`);
-  } else {
-    return <>{children}</>;
   }
+
+  return <>{children}</>;
 }
