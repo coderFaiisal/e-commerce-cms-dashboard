@@ -5,7 +5,6 @@ import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import * as z from "zod";
-import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
@@ -29,6 +28,8 @@ import {
   useDeleteBillboardMutation,
   useUpdateBillboardMutation,
 } from "@/redux/features/billboard/billboardApi";
+import CustomLoader from "@/components/customLoader";
+import { RingLoader } from "react-spinners";
 
 const formSchema = z.object({
   label: z.string().min(1),
@@ -183,7 +184,16 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
             />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
-            {action}
+            {loading ? (
+              <>
+                {action}
+                <CustomLoader>
+                  <RingLoader color="#36d7b7" size={30} />
+                </CustomLoader>
+              </>
+            ) : (
+              action
+            )}
           </Button>
         </form>
       </Form>

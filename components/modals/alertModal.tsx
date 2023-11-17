@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
+import CustomLoader from "../customLoader";
+import { RingLoader } from "react-spinners";
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -16,7 +18,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  loading
+  loading,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -39,7 +41,19 @@ export const AlertModal: React.FC<AlertModalProps> = ({
         <Button disabled={loading} variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button disabled={loading} variant="destructive" onClick={onConfirm}>Continue</Button>
+
+        <Button disabled={loading} variant="destructive" onClick={onConfirm}>
+          {loading ? (
+            <>
+              Continue
+              <CustomLoader>
+                <RingLoader color="#ffffff" size={30} />
+              </CustomLoader>
+            </>
+          ) : (
+            "Continue"
+          )}
+        </Button>
       </div>
     </Modal>
   );

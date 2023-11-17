@@ -76,7 +76,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
     const res: any = await deleteStore(id);
 
     if (res?.data?.name) {
-      router.refresh();
       router.push("/");
       toast.success("Store deleted successfully");
     }
