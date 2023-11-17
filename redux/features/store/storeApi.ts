@@ -8,6 +8,7 @@ const storeApi = baseApi.injectEndpoints({
         method: "POST",
         data: storeData,
       }),
+      invalidatesTags: ["store"],
     }),
 
     isStoreExist: build.query({
@@ -22,6 +23,7 @@ const storeApi = baseApi.injectEndpoints({
         url: "/stores",
         method: "GET",
       }),
+      providesTags: ["store"],
     }),
 
     getSingleStore: build.query({
@@ -29,6 +31,24 @@ const storeApi = baseApi.injectEndpoints({
         url: `/stores/${id}`,
         method: "GET",
       }),
+      providesTags: ["store"],
+    }),
+
+    updateStore: build.mutation({
+      query: ({ id, data }) => ({
+        url: `/stores/${id}`,
+        method: "PATCH",
+        data: data,
+      }),
+      invalidatesTags: ["store"],
+    }),
+
+    deleteStore: build.mutation({
+      query: (id) => ({
+        url: `/stores/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["store"],
     }),
   }),
 });
@@ -38,4 +58,6 @@ export const {
   useIsStoreExistQuery,
   useGetAllStoresQuery,
   useGetSingleStoreQuery,
+  useUpdateStoreMutation,
+  useDeleteStoreMutation,
 } = storeApi;

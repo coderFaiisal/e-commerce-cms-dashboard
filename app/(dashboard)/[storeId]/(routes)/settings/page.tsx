@@ -5,14 +5,16 @@ import { useGetSingleStoreQuery } from "@/redux/features/store/storeApi";
 
 const SettingsPage = ({ params }: { params: { storeId: string } }) => {
   const id = params.storeId;
+  const { data, isLoading } = useGetSingleStoreQuery(id);
 
-  const { data: store } = useGetSingleStoreQuery(id);
-  console.log(store);
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <SettingsForm initialData={store} />
+        <SettingsForm initialData={data} />
       </div>
     </div>
   );

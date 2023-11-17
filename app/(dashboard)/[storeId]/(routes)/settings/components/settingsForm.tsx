@@ -22,6 +22,10 @@ import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/heading";
 import { toast } from "sonner";
 import { AlertModal } from "@/components/modals/alertModal";
+import {
+  useDeleteStoreMutation,
+  useUpdateStoreMutation,
+} from "@/redux/features/store/storeApi";
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -29,48 +33,60 @@ const formSchema = z.object({
 
 type SettingsFormValues = z.infer<typeof formSchema>;
 
-interface SettingsFormProps {
+type SettingsFormProps = {
   initialData: any;
-}
+};
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   const params = useParams();
+  const id = params.storeId;
+
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [updateStore] = useUpdateStoreMutation();
+  const [deleteStore] = useDeleteStoreMutation();
+
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: { name: initialData?.name },
   });
 
   const onSubmit = async (data: SettingsFormValues) => {
-    try {
-      setLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, data);
+    setLoading(true);
+
+    const res: Record<string, any> = await updateStore({ id, data });
+
+    if (res?.data?.name) {
       router.refresh();
-      toast.success("Store updated");
-    } catch (error: any) {
-      toast.error("Something went wrong!");
-    } finally {
-      setLoading(false);
+      toast.success("Store updated successfully");
     }
+    if (res?.error) {
+      toast.error(res?.error?.message);
+    }
+
+    setLoading(false);
   };
 
   const onDelete = async () => {
-    try {
-      setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`);
+    setLoading(true);
+
+    const res: any = await deleteStore(id);
+
+    if (res?.data?.name) {
       router.refresh();
       router.push("/");
-      toast.success("Store deleted.");
-    } catch (error: any) {
-      toast.error("Make sure you removed all products and categories first.");
-    } finally {
-      setLoading(false);
-      setOpen(false);
+      toast.success("Store deleted successfully");
     }
+
+    if (res?.error) {
+      toast.error(res?.error?.message);
+    }
+
+    setLoading(false);
+    setOpen(false);
   };
 
   return (
@@ -107,7 +123,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Change Store Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
@@ -121,7 +137,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
             />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
-            Save changes
+            Save change
           </Button>
         </form>
       </Form>

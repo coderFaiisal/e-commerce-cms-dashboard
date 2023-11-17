@@ -53,7 +53,7 @@ instance.interceptors.response.use(
       const responseObject: IGenericErrorResponse = {
         statusCode: error?.response?.data?.statusCode || 500,
         message: error?.response?.data?.message || "Something went wrong",
-        errorMessages: error?.response?.data?.message,
+        errorMessages: error?.response?.data?.errorMessages,
       };
       return { error: responseObject };
     }
