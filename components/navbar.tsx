@@ -7,7 +7,6 @@ import { ThemeToggle } from "./themeToggle";
 
 const Navbar = async () => {
   const { data: stores } = useGetAllStoresQuery({});
-
   const { data } = useGetAdminProfileQuery({});
 
   return (

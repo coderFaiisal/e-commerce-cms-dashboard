@@ -22,13 +22,13 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <body className={`${inter.className} max-w-7xl mx-auto`}>
+        <body className={`${inter.className} max-w-7xl mx-auto`}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
-            <Toaster position="top-right" closeButton richColors />
-            <ModalProvider />
-          </body>
-        </ThemeProvider>
+          </ThemeProvider>
+          <Toaster position="top-right" closeButton richColors />
+          <ModalProvider />
+        </body>
       </html>
     </Providers>
   );
