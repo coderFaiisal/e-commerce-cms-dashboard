@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/providers/Providers";
 import { Toaster } from "sonner";
 import { ModalProvider } from "@/providers/ModalProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +22,13 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-        <body className={inter.className}>
-          {children}
-          <Toaster position="top-right" closeButton richColors />
-          <ModalProvider />
-        </body>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <body className={`${inter.className} max-w-7xl mx-auto`}>
+            {children}
+            <Toaster position="top-right" closeButton richColors />
+            <ModalProvider />
+          </body>
+        </ThemeProvider>
       </html>
     </Providers>
   );

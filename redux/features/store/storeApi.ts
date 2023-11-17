@@ -17,6 +17,13 @@ const storeApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getAllStores: build.query({
+      query: () => ({
+        url: "/stores",
+        method: "GET",
+      }),
+    }),
+
     getSingleStore: build.query({
       query: (id) => ({
         url: `/stores/${id}`,
@@ -29,5 +36,6 @@ const storeApi = baseApi.injectEndpoints({
 export const {
   useCreateStoreMutation,
   useIsStoreExistQuery,
+  useGetAllStoresQuery,
   useGetSingleStoreQuery,
 } = storeApi;

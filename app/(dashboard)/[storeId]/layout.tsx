@@ -1,5 +1,6 @@
 "use client";
 
+import Navbar from "@/components/navbar";
 import { useIsStoreExistQuery } from "@/redux/features/store/storeApi";
 import { getAdminInfo } from "@/services/auth.service";
 import { redirect } from "next/navigation";
@@ -34,7 +35,7 @@ export default function DashboardLayout({
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       {children}
     </>
   );
