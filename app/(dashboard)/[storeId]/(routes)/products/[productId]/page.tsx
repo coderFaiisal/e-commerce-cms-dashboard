@@ -2,9 +2,10 @@
 
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
 import { useGetSingleProductQuery } from "@/redux/features/product/productApi";
-import { ProductForm } from "./components/caratForm";
+
 import { useGetAllMaterialsQuery } from "@/redux/features/material/materialApi";
 import { useGetAllCaratsQuery } from "@/redux/features/carat/caratApi";
+import { ProductForm } from "./components/productForm";
 
 const ProductPage = ({ params }: { params: { productId: string } }) => {
   const { data: product, isLoading: isProductLoading } =
