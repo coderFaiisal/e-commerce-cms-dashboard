@@ -5,7 +5,7 @@ import StoreSwitcher from "./storeSwitcher";
 import { useGetAllStoresQuery } from "@/redux/features/store/storeApi";
 import { ThemeToggle } from "./themeToggle";
 
-const Navbar = async () => {
+const Navbar = () => {
   const { data: stores } = useGetAllStoresQuery({});
   const { data } = useGetAdminProfileQuery({});
 

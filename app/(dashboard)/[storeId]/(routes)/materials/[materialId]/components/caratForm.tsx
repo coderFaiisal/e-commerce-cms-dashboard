@@ -25,11 +25,7 @@ import { AlertModal } from "@/components/modals/alertModal";
 
 import CustomLoader from "@/components/customLoader";
 import { RingLoader } from "react-spinners";
-import {
-  useCreateCaratMutation,
-  useDeleteCaratMutation,
-  useUpdateCaratMutation,
-} from "@/redux/features/carat/caratApi";
+
 import {
   Select,
   SelectContent,
@@ -37,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCreateMaterialMutation, useDeleteMaterialMutation, useUpdateMaterialMutation } from "@/redux/features/material/materialApi";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -44,19 +41,19 @@ const formSchema = z.object({
   categoryId: z.string().min(1),
 });
 
-type CaratFormValues = z.infer<typeof formSchema>;
+type MaterialFormValues = z.infer<typeof formSchema>;
 
-interface CaratFormProps {
+interface MaterialFormProps {
   initialData: any;
   categories: any;
 }
 
-export const CaratForm: React.FC<CaratFormProps> = ({
+export const MaterialForm: React.FC<MaterialFormProps> = ({
   initialData,
   categories,
 }) => {
   const params = useParams();
-  const id = params.caratId;
+  const id = params.materialId;
   const storeId = params.storeId;
 
   const router = useRouter();
@@ -64,16 +61,16 @@ export const CaratForm: React.FC<CaratFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [createCarat] = useCreateCaratMutation();
-  const [updateCarat] = useUpdateCaratMutation();
-  const [deleteCarat] = useDeleteCaratMutation();
+  const [createMaterial] = useCreateMaterialMutation();
+  const [updateMaterial] = useUpdateMaterialMutation();
+  const [deleteMaterial] = useDeleteMaterialMutation();
 
-  const title = initialData ? "Edit carat" : "Create carat";
-  const description = initialData ? "Edit a carat" : "Add a new carat";
+  const title = initialData ? "Edit material" : "Create material";
+  const description = initialData ? "Edit a material" : "Add a new material";
 
   const action = initialData ? "Save changes" : "Create";
 
-  const form = useForm<CaratFormValues>({
+  const form = useForm<MaterialFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       label: "",
@@ -81,32 +78,32 @@ export const CaratForm: React.FC<CaratFormProps> = ({
     },
   });
 
-  const onSubmit = async (data: CaratFormValues) => {
+  const onSubmit = async (data: MaterialFormValues) => {
     setLoading(true);
 
     if (initialData) {
     
-      const res: any = await updateCarat({ id, data });
+      const res: any = await updateMaterial({ id, data });
 
       if (res?.data?._id) {
-        router.push(`/${params.storeId}/carats`);
-        toast.success("Carat updated successfully");
+        router.push(`/${params.storeId}/materials`);
+        toast.success("Material updated successfully");
       } else if (res?.error) {
         toast.error(res?.error?.message);
       }
     } else {
-      const caratData = {
+      const materialData = {
         name: data.name,
         value: data.value,
         storeId,
         categoryId: data.categoryId,
       };
 
-      const res: any = await createCarat(caratData);
+      const res: any = await createMaterial(materialData);
 
       if (res?.data?._id) {
-        router.push(`/${params.storeId}/carats`);
-        toast.success("Carat created successfully");
+        router.push(`/${params.storeId}/materials`);
+        toast.success("Material created successfully");
       } else if (res?.error) {
         toast.error(res?.error?.message);
       }
@@ -118,11 +115,11 @@ export const CaratForm: React.FC<CaratFormProps> = ({
   const onDelete = async () => {
     setLoading(true);
 
-    const res: any = await deleteCarat(id);
+    const res: any = await deleteMaterial(id);
 
     if (res?.data?._id) {
-      router.push(`/${params.storeId}/carats`);
-      toast.success("Carat deleted successfully");
+      router.push(`/${params.storeId}/materials`);
+      toast.success("Material deleted successfully");
     } else if (res?.error) {
       toast.error(res?.error?.message);
     }
@@ -168,7 +165,7 @@ export const CaratForm: React.FC<CaratFormProps> = ({
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Carat name"
+                      placeholder="Material name"
                       {...field}
                     />
                   </FormControl>
@@ -185,7 +182,7 @@ export const CaratForm: React.FC<CaratFormProps> = ({
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Carat value"
+                      placeholder="Material value"
                       {...field}
                     />
                   </FormControl>

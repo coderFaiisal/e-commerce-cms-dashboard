@@ -88,7 +88,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
     if (initialData) {
       const res: any = await updateCategory({ id, data });
-      console.log(res);
 
       if (res?.data?._id) {
         router.push(`/${params.storeId}/categories`);

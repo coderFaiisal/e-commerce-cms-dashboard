@@ -1,5 +1,13 @@
-const MaterialsPage = () => {
-  return <div>This is materials page</div>;
+import { MaterialsClient } from "./components/client";
+
+const MaterialsPage = async () => {
+  return (
+    <div className="flex-col">
+      <div className="flex-1 space-y-4 p-8 pt-6">
+        <MaterialsClient />
+      </div>
+    </div>
+  );
 };
 
 export default MaterialsPage;

@@ -22,8 +22,6 @@ export const CategoriesClient = () => {
     return null;
   }
 
-  console.log(categories);
-
   const formattedCategories: CategoryColumn[] = categories?.map(
     (item: any) => ({
       id: item._id,
