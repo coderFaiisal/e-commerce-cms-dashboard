@@ -77,7 +77,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     if (initialData) {
       const res: any = await updateBillboard({ id, data });
 
-      if (res?.data?.label) {
+      if (res?.data?._id) {
         router.push(`/${params.storeId}/billboards`);
         toast.success("Billboard updated successfully");
       } else if (res?.error) {
@@ -92,7 +92,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 
       const res: any = await createBillboard(billboardData);
 
-      if (res?.data?.label) {
+      if (res?.data?._id) {
         router.push(`/${params.storeId}/billboards`);
         toast.success("Billboard created successfully");
       } else if (res?.error) {
@@ -108,7 +108,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 
     const res: any = await deleteBillboard(id);
 
-    if (res?.data?.label) {
+    if (res?.data?._id) {
       router.push(`/${params.storeId}/billboards`);
       toast.success("Billboard deleted successfully");
     } else if (res?.error) {
@@ -188,7 +188,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
               <>
                 {action}
                 <CustomLoader>
-                  <RingLoader color="#36d7b7" size={30} />
+                  <RingLoader color="#ffffff" size={30} />
                 </CustomLoader>
               </>
             ) : (

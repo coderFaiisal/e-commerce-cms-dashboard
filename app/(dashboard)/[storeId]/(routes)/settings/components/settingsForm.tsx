@@ -59,7 +59,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
     const res: Record<string, any> = await updateStore({ id, data });
 
-    if (res?.data?.name) {
+    if (res?.data?._id) {
       router.refresh();
       toast.success("Store updated successfully");
     }
@@ -75,7 +75,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
     const res: any = await deleteStore(id);
 
-    if (res?.data?.name) {
+    if (res?.data?._id) {
       router.push("/");
       toast.success("Store deleted successfully");
     }

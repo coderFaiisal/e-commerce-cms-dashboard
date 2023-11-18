@@ -1,6 +1,6 @@
 "use client";
 
-import { BillboardForm } from "./components/billboard-form";
+import { BillboardForm } from "./components/billboardForm";
 import { useGetSingleBillboardQuery } from "@/redux/features/billboard/billboardApi";
 
 const BillboardPage = ({ params }: { params: { billboardId: string } }) => {

@@ -21,13 +21,18 @@ import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { handleClose } from "@/redux/features/store/storeSlice";
 import { useCreateStoreMutation } from "@/redux/features/store/storeApi";
+import CustomLoader from "../customLoader";
+import { RingLoader } from "react-spinners";
+import { useRouter } from "next/navigation";
 
 export const StoreModal = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  const [createStore] = useCreateStoreMutation();
+
   const { isOpen } = useAppSelector((state) => state.store);
   const dispatch = useAppDispatch();
-  const [createStore, { data }] = useCreateStoreMutation();
-
   const onClose = () => dispatch(handleClose());
 
   const formSchema = z.object({
@@ -42,18 +47,19 @@ export const StoreModal = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      setLoading(true);
-      createStore(values);
-      if (data?._id) {
-        toast.success("Store created successfully");
-        window.location.assign(`/${data?._id}`);
-      }
-    } catch (error) {
-      toast.error("Something went wrong!");
-    } finally {
-      setLoading(false);
+    setLoading(true);
+
+    const res: any = await createStore(values);
+
+    if (res?.data?._id) {
+      toast.success("Store created successfully");
+      router.push(`/${res?.data?._id}`);
+    } else if (res?.error) {
+      toast.error(res?.error?.message);
     }
+
+    setLoading(false);
+    onClose();
   };
 
   return (
@@ -84,7 +90,16 @@ export const StoreModal = () => {
                 Cancel
               </Button>
               <Button disabled={loading} type="submit">
-                Continue
+                {loading ? (
+                  <>
+                    Continue
+                    <CustomLoader>
+                      <RingLoader color="#ffffff" size={30} />
+                    </CustomLoader>
+                  </>
+                ) : (
+                  "Continue"
+                )}
               </Button>
             </div>
           </form>

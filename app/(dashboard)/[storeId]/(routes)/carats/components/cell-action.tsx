@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -14,13 +13,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { BillboardColumn } from "./columns";
 import { AlertModal } from "@/components/modals/alertModal";
 import { toast } from "sonner";
-import { useDeleteBillboardMutation } from "@/redux/features/billboard/billboardApi";
+import { CaratColumn } from "./columns";
+import { useDeleteCaratMutation } from "@/redux/features/carat/caratApi";
+
 
 interface CellActionProps {
-  data: BillboardColumn;
+  data: CaratColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -29,14 +29,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [deleteBillboard] = useDeleteBillboardMutation();
+  const [deleteCarat] = useDeleteCaratMutation();
 
   const onConfirm = async () => {
     setLoading(true);
-    const res: any = await deleteBillboard(data.id);
+    const res: any = await deleteCarat(data.id);
 
     if (res?.data?._id) {
-      toast.success("Billboard deleted successfully");
+      toast.success("Carat deleted successfully");
       router.refresh();
     } else if (res?.error) {
       toast.error(res?.error?.message);
@@ -48,7 +48,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Billboard ID copied to clipboard.");
+    toast.success("Carat ID copied to clipboard.");
   };
 
   return (
@@ -73,7 +73,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/${params.storeId}/billboards/${data.id}`)
+              router.push(`/${params.storeId}/carats/${data.id}`)
             }
           >
             <Edit className="mr-2 h-4 w-4" /> Update

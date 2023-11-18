@@ -9,25 +9,29 @@ import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/dataTable";
+import { CategoryColumn, columns } from "./columns";
+import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
 
-import { columns, BillboardColumn } from "./columns";
-import { useGetAllBillboardsQuery } from "@/redux/features/billboard/billboardApi";
-
-export const BillboardsClient = () => {
+export const CategoriesClient = () => {
   const params = useParams();
   const router = useRouter();
 
-  const { data: billboards = [], isLoading } = useGetAllBillboardsQuery({});
+  const { data: categories = [], isLoading } = useGetAllCategoriesQuery({});
 
   if (isLoading) {
     return null;
   }
 
-  const formattedBillboards: BillboardColumn[] = billboards?.map(
+  console.log(categories);
+
+  const formattedCategories: CategoryColumn[] = categories?.map(
     (item: any) => ({
       id: item._id,
-      storeId: item.storeId,
-      label: item.label,
+      name: item.name,
+      code: item.code,
+      storeId: item.storeId._id,
+      billboardId: item.billboardId._id,
+      billboardLabel: item.billboardId.label,
       createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
     })
   );
@@ -36,20 +40,20 @@ export const BillboardsClient = () => {
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Billboards (${formattedBillboards?.length})`}
-          description="Manage billboards for your store"
+          title={`Categories (${formattedCategories?.length})`}
+          description="Manage categories for your store"
         />
         <Button
-          onClick={() => router.push(`/${params?.storeId}/billboards/new`)}
+          onClick={() => router.push(`/${params?.storeId}/categories/new`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>
       </div>
       <Separator />
       <DataTable
-        searchKey="label"
+        searchKey="name"
         columns={columns}
-        data={formattedBillboards}
+        data={formattedCategories}
       />
     </>
   );
