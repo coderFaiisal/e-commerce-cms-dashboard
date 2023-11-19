@@ -11,7 +11,6 @@ export default function SetupLayout({
   children: React.ReactNode;
 }) {
   const [isMounted, setIsMounted] = useState(false);
-  const [loading, setLoading] = useState(true);
   const admin = getAdminInfo();
   const { data: store, isLoading } = useIsStoreExistQuery({});
 
@@ -19,13 +18,7 @@ export default function SetupLayout({
     setIsMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!isLoading) {
-      setLoading(false);
-    }
-  }, [isLoading]);
-
-  if (!isMounted || loading) {
+  if (!isMounted || isLoading) {
     return null;
   }
 

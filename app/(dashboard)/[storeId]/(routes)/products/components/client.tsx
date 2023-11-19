@@ -12,8 +12,6 @@ import { DataTable } from "@/components/ui/dataTable";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { ProductColumn, columns } from "./columns";
 
-
-
 export const ProductsClient = () => {
   const params = useParams();
   const router = useRouter();
@@ -25,14 +23,14 @@ export const ProductsClient = () => {
   }
 
   const formattedProducts: ProductColumn[] = products?.map((item: any) => ({
-    id: item.id,
-    name: item.name,
-    isFeatured: item.isFeatured,
-    isArchived: item.isArchived,
-    price: item.price,
-    category: item.category.name,
-    size: item.size.name,
-    color: item.color.value,
+    id: item?._id,
+    name: item?.name,
+    price: item?.price,
+    status: item?.status,
+    stockQuantity: item?.stockQuantity,
+    category: item?.categoryId?.name,
+    carat: item?.caratId?.name,
+    material: item?.materialId?.name,
     createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
   }));
 

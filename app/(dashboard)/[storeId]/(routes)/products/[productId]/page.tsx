@@ -19,6 +19,7 @@ const ProductPage = ({ params }: { params: { productId: string } }) => {
   const { data: materials, isLoading: isMaterialLoading } =
     useGetAllMaterialsQuery({});
 
+
   if (
     isProductLoading ||
     isCaratLoading ||

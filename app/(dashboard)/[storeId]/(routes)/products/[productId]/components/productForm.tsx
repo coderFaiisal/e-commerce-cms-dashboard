@@ -43,55 +43,55 @@ import { Checkbox } from "@/components/ui/checkbox";
 import ImageUpload from "@/components/ui/imageUpload";
 import { Textarea } from "@/components/ui/textarea";
 
-const productinterface = {
-  storeId: "",
-  categoryId: "",
-  materialId: "",
-  caratId: "",
-  name: "",
-  price: "",
-  productCode: "",
-  description: "",
-  images: "",
-  isFeatured: "",
-  isArchived: "",
-  status: "",
-  stockQuantity: "",
-  materials: "",
-  dimensions: "",
-  discounts: "",
-  ratings: "",
-  returnPolicy: "",
-  customizable: "",
-};
-
 const formSchema = z.object({
-  name: z.string().min(1),
-  price: z.coerce.number().min(1),
+  storeId: z.string().optional(),
+  categoryId: z.string().min(1, {
+    message: "Select a category, please",
+  }),
+  materialId: z.string().min(1, {
+    message: "Select a material, please",
+  }),
+  caratId: z.string().min(1, {
+    message: "Select a carat, please",
+  }),
+  name: z.string().min(3, {
+    message: "Name at least 3 characters",
+  }),
+  price: z.coerce.number({ required_error: "Price is required" }),
   description: z
-    .string()
+    .string({
+      required_error: "Description is required",
+    })
     .min(10, {
-      message: "Bio must be at least 10 characters.",
+      message: "At least 10 characters",
     })
     .max(160, {
-      message: "Bio must not be longer than 30 characters.",
+      message: "Not be longer than 40 characters",
     }),
-  images: z.object({ url: z.string() }).array(),
+  images: z
+    .array(
+      z.string({
+        required_error: "Images required",
+      })
+    )
+    .min(1),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
-  status: z.string(),
-  stockQuantity: z.number().min(1),
-  materials: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
+  status: z.string({
+    required_error: "Status is required",
   }),
+  stockQuantity: z.coerce.number().min(1, {
+    message: "Stock quantity is required",
+  }),
+  materials: z
+    .array(z.string(), { required_error: "Select at least one item" })
+    .refine((value) => value.some((item) => item), {
+      message: "Select at least one item",
+    }),
   dimensions: z.string().optional(),
   discounts: z.string().optional(),
-  ratings: z.number().optional(),
   returnPolicy: z.string().optional(),
   customizable: z.boolean().optional(),
-  categoryId: z.string().min(1),
-  materialId: z.string().min(1),
-  caratId: z.string().min(1),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -105,28 +105,28 @@ interface ProductFormProps {
 
 const items = [
   {
-    id: "recents",
-    label: "Recents",
+    id: "diamond",
+    label: "Diamond",
   },
   {
-    id: "home",
-    label: "Home",
+    id: "platinum",
+    label: "Platinum",
   },
   {
-    id: "applications",
-    label: "Applications",
+    id: "gold",
+    label: "Gold",
   },
   {
-    id: "desktop",
-    label: "Desktop",
+    id: "pearls",
+    label: "Pearls - (Rubies, Sapphires, Emeralds)",
   },
   {
-    id: "downloads",
-    label: "Downloads",
+    id: "silver",
+    label: "Silver",
   },
   {
-    id: "documents",
-    label: "Documents",
+    id: "titanium",
+    label: "Titanium",
   },
 ] as const;
 
@@ -150,20 +150,48 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [deleteProduct] = useDeleteProductMutation();
 
   const title = initialData ? "Edit product" : "Create product";
-  const description = initialData ? "Edit a product" : "Add a new product";
+  const productDescription = initialData
+    ? "Edit a product"
+    : "Add a new product";
 
   const action = initialData ? "Save changes" : "Create";
 
+  const {
+    categoryId,
+    caratId,
+    materialId,
+    name,
+    price,
+    description,
+    images,
+    isFeatured,
+    isArchived,
+    status,
+    stockQuantity,
+    materials: productMaterials,
+    dimensions,
+    discounts,
+    returnPolicy,
+    customizable,
+  } = initialData;
+
   const defaultValues = {
-    name: "",
-    images: [],
-    price: 0,
-    items: ["recents", "home"],
-    categoryId: "",
-    materialId: "",
-    caratId: "",
-    isFeatured: false,
-    isArchived: false,
+    categoryId: categoryId?._id,
+    caratId: caratId?._id,
+    materialId: materialId?._id,
+    name,
+    price,
+    description,
+    images,
+    isFeatured,
+    isArchived,
+    status,
+    stockQuantity,
+    materials: productMaterials,
+    dimensions,
+    discounts,
+    returnPolicy,
+    customizable,
   };
 
   const form = useForm<ProductFormValues>({
@@ -184,14 +212,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         toast.error(res?.error?.message);
       }
     } else {
-      const productData = {
-        name: data.name,
-        price: data.price,
-        storeId,
-        categoryId: data.categoryId,
-      };
+      data.storeId = storeId as string;
 
-      const res: any = await createProduct(productData);
+      const res: any = await createProduct(data);
 
       if (res?.data?._id) {
         router.push(`/${params.storeId}/products`);
@@ -229,7 +252,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         loading={loading}
       />
       <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
+        <Heading title={title} description={productDescription} />
         {initialData && (
           <Button
             disabled={loading}
@@ -255,14 +278,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormLabel>Images</FormLabel>
                 <FormControl>
                   <ImageUpload
-                    value={field.value.map((image) => image.url)}
+                    value={field.value.map((image) => image)}
                     disabled={loading}
-                    onChange={(url) =>
-                      field.onChange([...field.value, { url }])
-                    }
+                    onChange={(url) => field.onChange([...field.value, url])}
                     onRemove={(url) =>
                       field.onChange([
-                        ...field.value.filter((current) => current.url !== url),
+                        ...field.value.filter((current) => current !== url),
                       ])
                     }
                   />
@@ -292,24 +313,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
             <FormField
               control={form.control}
-              name="returnPolicy"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Return Policy</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Return policy"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="price"
               render={({ field }) => (
                 <FormItem>
@@ -329,10 +332,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
             <FormField
               control={form.control}
-              name="ratings"
+              name="stockQuantity"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ratings</FormLabel>
+                  <FormLabel>Stock Quantity</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -396,77 +399,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
             <FormField
               control={form.control}
-              name="stockQuantity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Stock Quantity</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      disabled={loading}
-                      placeholder="00"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="materials"
-              render={() => (
-                <FormItem>
-                  <div className="mb-4">
-                    <FormLabel className="text-base">Materials</FormLabel>
-                    <FormDescription>
-                      Select additional materials
-                    </FormDescription>
-                  </div>
-                  {items.map((item) => (
-                    <FormField
-                      key={item.id}
-                      control={form.control}
-                      name="materials"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={item.id}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(item.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([
-                                        ...(field?.value || []),
-                                        item.id,
-                                      ])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== item.id
-                                        )
-                                      );
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {item.label}
-                            </FormLabel>
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  ))}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="dimensions"
               render={({ field }) => (
                 <FormItem>
@@ -475,24 +407,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <Input
                       disabled={loading}
                       placeholder="Product dimensions"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="discounts"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Discounts</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Product discounts"
                       {...field}
                     />
                   </FormControl>
@@ -523,7 +437,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     </FormControl>
                     <SelectContent>
                       {categories.map((category: any) => (
-                        <SelectItem key={category.id} value={category.id}>
+                        <SelectItem key={category._id} value={category._id}>
                           {category.name}
                         </SelectItem>
                       ))}
@@ -533,6 +447,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="caratId"
@@ -565,6 +480,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="materialId"
@@ -597,6 +513,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="customizable"
@@ -638,6 +555,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="isArchived"
@@ -653,9 +571,97 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <div className="space-y-1 leading-none">
                     <FormLabel>Archived</FormLabel>
                     <FormDescription>
-                      This product will not appear anywhere in the store.
+                      This product will not appear anywhere in the store
                     </FormDescription>
                   </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="discounts"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discounts</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Product discounts"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="returnPolicy"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Return Policy</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Return policy"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="materials"
+              render={() => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Materials</FormLabel>
+                    <FormDescription>
+                      Select additional materials
+                    </FormDescription>
+                  </div>
+                  {items?.map((item: any) => (
+                    <FormField
+                      key={item.id}
+                      control={form.control}
+                      name="materials"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={item.id}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(item.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([
+                                        ...(field?.value || []),
+                                        item.id,
+                                      ])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== item.id
+                                        )
+                                      );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {item.label}
+                            </FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
                 </FormItem>
               )}
             />
