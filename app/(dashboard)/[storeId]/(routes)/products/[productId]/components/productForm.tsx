@@ -67,7 +67,6 @@ const productinterface = {
 
 const formSchema = z.object({
   name: z.string().min(1),
-  images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   description: z
     .string()
@@ -77,6 +76,11 @@ const formSchema = z.object({
     .max(160, {
       message: "Bio must not be longer than 30 characters.",
     }),
+  images: z.object({ url: z.string() }).array(),
+  isFeatured: z.boolean().default(false).optional(),
+  isArchived: z.boolean().default(false).optional(),
+  status: z.string(),
+  stockQuantity: z.number().min(1),
   materials: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one item.",
   }),
@@ -85,13 +89,9 @@ const formSchema = z.object({
   ratings: z.number().optional(),
   returnPolicy: z.string().optional(),
   customizable: z.boolean().optional(),
-  status: z.string(),
-  stockQuantity: z.number().min(1),
   categoryId: z.string().min(1),
   materialId: z.string().min(1),
   caratId: z.string().min(1),
-  isFeatured: z.boolean().default(false).optional(),
-  isArchived: z.boolean().default(false).optional(),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -154,21 +154,17 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   const action = initialData ? "Save changes" : "Create";
 
-  const defaultValues = initialData
-    ? {
-        ...initialData,
-        price: parseFloat(String(initialData?.price)),
-      }
-    : {
-        name: "",
-        images: [],
-        price: 0,
-        categoryId: "",
-        materialId: "",
-        caratId: "",
-        isFeatured: false,
-        isArchived: false,
-      };
+  const defaultValues = {
+    name: "",
+    images: [],
+    price: 0,
+    items: ["recents", "home"],
+    categoryId: "",
+    materialId: "",
+    caratId: "",
+    isFeatured: false,
+    isArchived: false,
+  };
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
@@ -423,9 +419,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={() => (
                 <FormItem>
                   <div className="mb-4">
-                    <FormLabel className="text-base">Sidebar</FormLabel>
+                    <FormLabel className="text-base">Materials</FormLabel>
                     <FormDescription>
-                      Select the items you want to display in the sidebar.
+                      Select additional materials
                     </FormDescription>
                   </div>
                   {items.map((item) => (
@@ -444,7 +440,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                 checked={field.value?.includes(item.id)}
                                 onCheckedChange={(checked) => {
                                   return checked
-                                    ? field.onChange([...field?.value, item.id])
+                                    ? field.onChange([
+                                        ...(field?.value || []),
+                                        item.id,
+                                      ])
                                     : field.onChange(
                                         field.value?.filter(
                                           (value) => value !== item.id
@@ -612,9 +611,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>Customizable</FormLabel>
-                    <FormDescription>
-                      Select for customizable
-                    </FormDescription>
+                    <FormDescription>Select for customizable</FormDescription>
                   </div>
                 </FormItem>
               )}
