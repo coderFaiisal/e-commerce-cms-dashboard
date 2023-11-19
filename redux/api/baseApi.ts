@@ -15,5 +15,6 @@ export const baseApi = createApi({
     "carat",
     "material",
     "product",
+    "order"
   ],
 });
