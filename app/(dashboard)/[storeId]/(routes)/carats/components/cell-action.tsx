@@ -46,11 +46,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     setLoading(false);
   };
 
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id);
-    toast.success("Carat ID copied to clipboard.");
-  };
-
   return (
     <>
       <AlertModal
@@ -68,9 +63,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => onCopy(data.id)}>
-            <Copy className="mr-2 h-4 w-4" /> Copy Id
-          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
               router.push(`/${params.storeId}/carats/${data.id}`)
