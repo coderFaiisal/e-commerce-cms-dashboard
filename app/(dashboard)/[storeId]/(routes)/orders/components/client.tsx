@@ -7,9 +7,13 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/dataTable";
 import { useGetAllOrdersQuery } from "@/redux/features/order/orderApi";
 import { OrderColumn, columns } from "./columns";
+import { useParams } from "next/navigation";
 
 export const OrdersClient = () => {
-  const { data: orders = [], isLoading } = useGetAllOrdersQuery({});
+  const params = useParams();
+  const storeId = params.storeId;
+
+  const { data: orders = [], isLoading } = useGetAllOrdersQuery(storeId);
 
   if (isLoading) {
     return null;
