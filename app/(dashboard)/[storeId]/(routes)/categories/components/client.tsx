@@ -14,9 +14,12 @@ import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi"
 
 export const CategoriesClient = () => {
   const params = useParams();
+  const storeId = params.storeId;
+
   const router = useRouter();
 
-  const { data: categories = [], isLoading } = useGetAllCategoriesQuery({});
+  const { data: categories = [], isLoading } =
+    useGetAllCategoriesQuery(storeId);
 
   if (isLoading) {
     return null;

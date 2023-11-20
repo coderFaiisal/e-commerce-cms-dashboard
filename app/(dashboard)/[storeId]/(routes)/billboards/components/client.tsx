@@ -15,9 +15,11 @@ import { useGetAllBillboardsQuery } from "@/redux/features/billboard/billboardAp
 
 export const BillboardsClient = () => {
   const params = useParams();
+  const storeId = params.storeId;
   const router = useRouter();
 
-  const { data: billboards = [], isLoading } = useGetAllBillboardsQuery({});
+  const { data: billboards = [], isLoading } =
+    useGetAllBillboardsQuery(storeId);
 
   if (isLoading) {
     return null;

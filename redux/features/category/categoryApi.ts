@@ -12,8 +12,8 @@ const categoryApi = baseApi.injectEndpoints({
     }),
 
     getAllCategories: build.query({
-      query: () => ({
-        url: "/categories/",
+      query: (storeId) => ({
+        url: `/categories/${storeId}`,
         method: "GET",
       }),
       providesTags: ["category"],
@@ -21,7 +21,7 @@ const categoryApi = baseApi.injectEndpoints({
 
     getSingleCategory: build.query({
       query: (id) => ({
-        url: `/categories/${id}`,
+        url: `/categories/single-category/${id}`,
         method: "GET",
       }),
       providesTags: ["category"],

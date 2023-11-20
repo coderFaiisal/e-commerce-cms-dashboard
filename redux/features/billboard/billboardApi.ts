@@ -12,8 +12,8 @@ const billBoardApi = baseApi.injectEndpoints({
     }),
 
     getAllBillboards: build.query({
-      query: () => ({
-        url: "/billboards",
+      query: (storeId) => ({
+        url: `/billboards/${storeId}`,
         method: "GET",
       }),
       providesTags: ["billboard"],
@@ -21,7 +21,7 @@ const billBoardApi = baseApi.injectEndpoints({
 
     getSingleBillboard: build.query({
       query: (id) => ({
-        url: `/billboards/${id}`,
+        url: `/billboards/single-billboard/${id}`,
         method: "GET",
       }),
     }),
