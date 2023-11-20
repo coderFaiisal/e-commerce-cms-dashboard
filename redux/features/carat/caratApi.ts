@@ -12,8 +12,8 @@ const caratApi = baseApi.injectEndpoints({
     }),
 
     getAllCarats: build.query({
-      query: () => ({
-        url: "/carats",
+      query: (storeId) => ({
+        url: `/carats/${storeId}`,
         method: "GET",
       }),
       providesTags: ["carat"],
@@ -21,7 +21,7 @@ const caratApi = baseApi.injectEndpoints({
 
     getSingleCarat: build.query({
       query: (id) => ({
-        url: `/carats/${id}`,
+        url: `/carats/single-carat/${id}`,
         method: "GET",
       }),
       providesTags: ["carat"],

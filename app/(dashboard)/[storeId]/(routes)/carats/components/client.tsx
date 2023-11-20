@@ -14,9 +14,11 @@ import { CaratColumn, columns } from "./columns";
 
 export const CaratsClient = () => {
   const params = useParams();
+  const storeId = params.storeId;
+
   const router = useRouter();
 
-  const { data: carats = [], isLoading } = useGetAllCaratsQuery({});
+  const { data: carats = [], isLoading } = useGetAllCaratsQuery(storeId);
 
   if (isLoading) {
     return null;
