@@ -156,42 +156,23 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   const action = initialData ? "Save changes" : "Create";
 
-  const {
-    categoryId,
-    caratId,
-    materialId,
-    name,
-    price,
-    description,
-    images,
-    isFeatured,
-    isArchived,
-    status,
-    stockQuantity,
-    materials: productMaterials,
-    dimensions,
-    discounts,
-    returnPolicy,
-    customizable,
-  } = initialData;
-
   const defaultValues = {
-    categoryId: categoryId?._id,
-    caratId: caratId?._id,
-    materialId: materialId?._id,
-    name,
-    price,
-    description,
-    images,
-    isFeatured,
-    isArchived,
-    status,
-    stockQuantity,
-    materials: productMaterials,
-    dimensions,
-    discounts,
-    returnPolicy,
-    customizable,
+    categoryId: initialData?.categoryId?._id,
+    caratId: initialData?.caratId?._id,
+    materialId: initialData?.materialId?._id,
+    name: initialData?.name,
+    price: initialData?.price,
+    description: initialData?.description,
+    images: initialData?.images,
+    isFeatured: initialData?.isFeatured,
+    isArchived: initialData?.isArchived,
+    status: initialData?.status,
+    stockQuantity: initialData?.stockQuantity,
+    materials: initialData?.productMaterials,
+    dimensions: initialData?.dimensions,
+    discounts: initialData?.discounts,
+    returnPolicy: initialData?.returnPolicy,
+    customizable: initialData?.customizable,
   };
 
   const form = useForm<ProductFormValues>({
@@ -278,7 +259,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormLabel>Images</FormLabel>
                 <FormControl>
                   <ImageUpload
-                    value={field.value.map((image) => image)}
+                    value={field.value?.map((image) => image)}
                     disabled={loading}
                     onChange={(url) => field.onChange([...field.value, url])}
                     onRemove={(url) =>
@@ -436,7 +417,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {categories.map((category: any) => (
+                      {categories?.map((category: any) => (
                         <SelectItem key={category._id} value={category._id}>
                           {category.name}
                         </SelectItem>
@@ -469,7 +450,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {carats.map((carat: any) => (
+                      {carats?.map((carat: any) => (
                         <SelectItem key={carat._id} value={carat._id}>
                           {carat.name}
                         </SelectItem>
@@ -502,7 +483,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {materials.map((material: any) => (
+                      {materials?.map((material: any) => (
                         <SelectItem key={material._id} value={material._id}>
                           {material.name}
                         </SelectItem>
