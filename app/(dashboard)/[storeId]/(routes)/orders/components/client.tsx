@@ -38,7 +38,7 @@ export const OrdersClient = () => {
         />
       </div>
       <Separator />
-      <DataTable searchKey="name" columns={columns} data={formattedOrders} />
+      <DataTable searchKey="orderStatus" columns={columns} data={formattedOrders} />
     </>
   );
 };

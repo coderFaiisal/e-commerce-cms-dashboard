@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { Copy, Edit, MoreHorizontal, TextSelect } from "lucide-react";
+import {  Edit, MoreHorizontal, TextSelect } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -13,11 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { AlertModal } from "@/components/modals/alertModal";
-import { toast } from "sonner";
 import { OrderColumn } from "./columns";
-import { useDeleteOrderMutation } from "@/redux/features/order/orderApi";
-
 interface CellActionProps {
   data: OrderColumn;
 }
@@ -26,33 +21,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
   const params = useParams();
 
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [deleteOrder] = useDeleteOrderMutation();
 
-  const onConfirm = async () => {
-    setLoading(true);
-    const res: any = await deleteOrder(data.id);
-
-    if (res?.data?._id) {
-      toast.success("Order deleted successfully");
-      router.refresh();
-    } else if (res?.error) {
-      toast.error(res?.error?.message);
-    }
-
-    setOpen(false);
-    setLoading(false);
-  };
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
-        loading={loading}
-      />
+      
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
