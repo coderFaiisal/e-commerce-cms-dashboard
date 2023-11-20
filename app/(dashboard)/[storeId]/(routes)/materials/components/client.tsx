@@ -12,12 +12,13 @@ import { DataTable } from "@/components/ui/dataTable";
 import { useGetAllMaterialsQuery } from "@/redux/features/material/materialApi";
 import { MaterialColumn, columns } from "./columns";
 
-
 export const MaterialsClient = () => {
   const params = useParams();
+  const storeId = params.storeId;
+
   const router = useRouter();
 
-  const { data: materials = [], isLoading } = useGetAllMaterialsQuery({});
+  const { data: materials = [], isLoading } = useGetAllMaterialsQuery(storeId);
 
   if (isLoading) {
     return null;
@@ -40,7 +41,9 @@ export const MaterialsClient = () => {
           title={`Materials (${formattedMaterials?.length})`}
           description="Manage materials for your store"
         />
-        <Button onClick={() => router.push(`/${params?.storeId}/materials/new`)}>
+        <Button
+          onClick={() => router.push(`/${params?.storeId}/materials/new`)}
+        >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>
       </div>

@@ -12,8 +12,8 @@ const productApi = baseApi.injectEndpoints({
     }),
 
     getAllProducts: build.query({
-      query: () => ({
-        url: "/products",
+      query: (storeId) => ({
+        url: `/products/${storeId}`,
         method: "GET",
       }),
       providesTags: ["product"],
@@ -21,7 +21,7 @@ const productApi = baseApi.injectEndpoints({
 
     getSingleProduct: build.query({
       query: (id) => ({
-        url: `/products/${id}`,
+        url: `/products/single-product/${id}`,
         method: "GET",
       }),
       providesTags: ["product"],

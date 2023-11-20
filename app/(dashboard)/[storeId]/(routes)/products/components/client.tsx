@@ -14,9 +14,11 @@ import { ProductColumn, columns } from "./columns";
 
 export const ProductsClient = () => {
   const params = useParams();
+  const storeId = params.storeId;
+
   const router = useRouter();
 
-  const { data: products = [], isLoading } = useGetAllProductsQuery({});
+  const { data: products = [], isLoading } = useGetAllProductsQuery(storeId);
 
   if (isLoading) {
     return null;

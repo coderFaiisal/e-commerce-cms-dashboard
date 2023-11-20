@@ -12,8 +12,8 @@ const materialApi = baseApi.injectEndpoints({
     }),
 
     getAllMaterials: build.query({
-      query: () => ({
-        url: "/materials",
+      query: (storeId) => ({
+        url: `/materials/${storeId}`,
         method: "GET",
       }),
       providesTags: ["material"],
@@ -21,7 +21,7 @@ const materialApi = baseApi.injectEndpoints({
 
     getSingleMaterial: build.query({
       query: (id) => ({
-        url: `/materials/${id}`,
+        url: `/materials/single-material/${id}`,
         method: "GET",
       }),
       providesTags: ["material"],
