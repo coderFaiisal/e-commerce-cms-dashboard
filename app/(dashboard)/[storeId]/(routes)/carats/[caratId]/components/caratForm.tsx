@@ -41,20 +41,15 @@ import {
 const formSchema = z.object({
   name: z.string().min(1),
   value: z.string().min(1),
-  categoryId: z.string().min(1),
 });
 
 type CaratFormValues = z.infer<typeof formSchema>;
 
 interface CaratFormProps {
   initialData: any;
-  categories: any;
 }
 
-export const CaratForm: React.FC<CaratFormProps> = ({
-  initialData,
-  categories,
-}) => {
+export const CaratForm: React.FC<CaratFormProps> = ({ initialData }) => {
   const params = useParams();
   const id = params.caratId;
   const storeId = params.storeId;
@@ -85,7 +80,6 @@ export const CaratForm: React.FC<CaratFormProps> = ({
     setLoading(true);
 
     if (initialData) {
-    
       const res: any = await updateCarat({ id, data });
 
       if (res?.data?._id) {
@@ -99,7 +93,6 @@ export const CaratForm: React.FC<CaratFormProps> = ({
         name: data.name,
         value: data.value,
         storeId,
-        categoryId: data.categoryId,
       };
 
       const res: any = await createCarat(caratData);
@@ -189,39 +182,6 @@ export const CaratForm: React.FC<CaratFormProps> = ({
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="categoryId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a category"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories.map((category: any) => (
-                        <SelectItem key={category._id} value={category._id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

@@ -13,6 +13,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
   params: { storeId: string };
 }) {
+  const storeId = params.storeId;
+
   const [isMounted, setIsMounted] = useState(false);
   const admin = getAdminInfo();
   const { data: store } = useIsStoreExistQuery({});
@@ -34,9 +36,9 @@ export default function DashboardLayout({
   }
 
   return (
-    <>
-      <Navbar />
+    <div className="max-w-7xl mx-auto">
+      <Navbar storeId={storeId} />
       {children}
-    </>
+    </div>
   );
 }

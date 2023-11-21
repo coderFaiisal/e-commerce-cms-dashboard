@@ -16,8 +16,6 @@ interface OverviewProps {
 }
 
 export const Overview: React.FC<OverviewProps> = ({ data }) => {
-  console.log("data: ", data);
-
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>
@@ -38,9 +36,9 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
         <Tooltip
           content={<CustomTooltip payload={data} />}
           isAnimationActive={false}
-          cursor={<Rectangle fill="#def2ff" radius={[4, 4, 0, 0]} />}
+          cursor={<Rectangle fill="#D6FFF5" radius={[4, 4, 0, 0]} />}
         />
-        <Bar dataKey="total" fill="#2C8AC9" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="total" fill="#36d7b7" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );

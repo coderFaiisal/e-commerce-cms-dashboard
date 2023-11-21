@@ -1,7 +1,9 @@
 "use client";
 
-import { PuffLoader  } from "react-spinners";
-
-export const Loader = () => {
-  return <PuffLoader color="#36d7b7" size={50} />;
+export const Loader = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="flex min-h-screen w-full items-center justify-center">
+      {children}
+    </div>
+  );
 };

@@ -6,19 +6,24 @@ import { useGetSingleProductQuery } from "@/redux/features/product/productApi";
 import { useGetAllMaterialsQuery } from "@/redux/features/material/materialApi";
 import { useGetAllCaratsQuery } from "@/redux/features/carat/caratApi";
 import { ProductForm } from "./components/productForm";
+import { useParams } from "next/navigation";
 
-const ProductPage = ({ params }: { params: { productId: string } }) => {
+const ProductPage = () => {
+  const params = useParams();
+
+  const { storeId, productId } = params;
+
   const { data: product, isLoading: isProductLoading } =
-    useGetSingleProductQuery(params.productId);
+    useGetSingleProductQuery(productId);
 
   const { data: categories, isLoading: isCategoriesLoading } =
-    useGetAllCategoriesQuery({});
+    useGetAllCategoriesQuery(storeId);
 
-  const { data: carats, isLoading: isCaratLoading } = useGetAllCaratsQuery({});
+  const { data: carats, isLoading: isCaratLoading } =
+    useGetAllCaratsQuery(storeId);
 
   const { data: materials, isLoading: isMaterialLoading } =
-    useGetAllMaterialsQuery({});
-
+    useGetAllMaterialsQuery(storeId);
 
   if (
     isProductLoading ||

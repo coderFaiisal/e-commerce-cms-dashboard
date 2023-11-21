@@ -29,8 +29,6 @@ export const MaterialsClient = () => {
     name: item.name,
     value: item.value,
     storeId: item.storeId._id,
-    categoryId: item.categoryId._id,
-    categoryName: item.categoryId.name,
     createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
   }));
 

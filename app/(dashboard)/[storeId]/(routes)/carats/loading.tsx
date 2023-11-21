@@ -1,12 +1,13 @@
 "use client";
 
 import { Loader } from "@/components/ui/loader";
+import { HashLoader } from "react-spinners";
 
 const Loading = () => {
   return (
-    <div className="flex h-full w-full items-center justify-center">
-      <Loader />
-    </div>
+    <Loader>
+      <HashLoader color="#36d7b7" />
+    </Loader>
   );
 };
 

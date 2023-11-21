@@ -11,6 +11,7 @@ import { Overview } from "@/components/overview";
 import { useGetAllOrdersQuery } from "@/redux/features/order/orderApi";
 import { TotalRevenue } from "./components/totalRevenue";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
+import AdminProfile from "@/components/adminProfile";
 
 interface GraphData {
   name: string;

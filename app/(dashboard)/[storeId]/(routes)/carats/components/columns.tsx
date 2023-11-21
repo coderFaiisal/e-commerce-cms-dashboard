@@ -8,7 +8,6 @@ export type CaratColumn = {
   id: string;
   name: string;
   value: string;
-  categoryName: string;
   createdAt: string;
 };
 
@@ -20,11 +19,6 @@ export const columns: ColumnDef<CaratColumn>[] = [
   {
     accessorKey: "value",
     header: "Value",
-  },
-  {
-    accessorKey: "categoryName",
-    header: "Category",
-    cell: ({ row }) => row.original.categoryName,
   },
   {
     accessorKey: "createdAt",

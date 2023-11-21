@@ -74,13 +74,17 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const action = initialData ? "Save changes" : "Create";
 
+  const defaultValues = {
+    name: initialData?.name || "",
+    code: initialData?.code || "",
+    billboardId: initialData?.billboardId?._id || "",
+  };
+
+  console.log(initialData);
+
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      name: "",
-      code: "",
-      billboardId: "",
-    },
+    defaultValues: defaultValues,
   });
 
   const onSubmit = async (data: CategoryFormValues) => {
@@ -217,7 +221,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {billboards.map((billboard: any) => (
+                      {billboards?.map((billboard: any) => (
                         <SelectItem key={billboard._id} value={billboard._id}>
                           {billboard.label}
                         </SelectItem>

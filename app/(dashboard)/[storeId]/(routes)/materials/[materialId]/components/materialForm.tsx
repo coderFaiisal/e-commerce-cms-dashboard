@@ -27,31 +27,23 @@ import CustomLoader from "@/components/customLoader";
 import { RingLoader } from "react-spinners";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useCreateMaterialMutation, useDeleteMaterialMutation, useUpdateMaterialMutation } from "@/redux/features/material/materialApi";
+  useCreateMaterialMutation,
+  useDeleteMaterialMutation,
+  useUpdateMaterialMutation,
+} from "@/redux/features/material/materialApi";
 
 const formSchema = z.object({
   name: z.string().min(1),
   value: z.string().min(1),
-  categoryId: z.string().min(1),
 });
 
 type MaterialFormValues = z.infer<typeof formSchema>;
 
 interface MaterialFormProps {
   initialData: any;
-  categories: any;
 }
 
-export const MaterialForm: React.FC<MaterialFormProps> = ({
-  initialData,
-  categories,
-}) => {
+export const MaterialForm: React.FC<MaterialFormProps> = ({ initialData }) => {
   const params = useParams();
   const id = params.materialId;
   const storeId = params.storeId;
@@ -82,7 +74,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
     setLoading(true);
 
     if (initialData) {
-    
       const res: any = await updateMaterial({ id, data });
 
       if (res?.data?._id) {
@@ -96,7 +87,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
         name: data.name,
         value: data.value,
         storeId,
-        categoryId: data.categoryId,
       };
 
       const res: any = await createMaterial(materialData);
@@ -186,39 +176,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="categoryId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a category"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories.map((category: any) => (
-                        <SelectItem key={category._id} value={category._id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

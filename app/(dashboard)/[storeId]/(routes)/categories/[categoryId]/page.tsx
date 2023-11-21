@@ -3,13 +3,17 @@
 import { useGetSingleCategoryQuery } from "@/redux/features/category/categoryApi";
 import { CategoryForm } from "./components/categoryForm";
 import { useGetAllBillboardsQuery } from "@/redux/features/billboard/billboardApi";
+import { useParams } from "next/navigation";
 
-const CategoryPage = ({ params }: { params: { categoryId: string } }) => {
+const CategoryPage = () => {
+  const params = useParams();
+  const { storeId, categoryId } = params;
+
   const { data: category, isLoading: isCategoryLoading } =
-    useGetSingleCategoryQuery(params.categoryId);
+    useGetSingleCategoryQuery(categoryId);
 
   const { data: billboards, isLoading: isBillboardsLoading } =
-    useGetAllBillboardsQuery({});
+    useGetAllBillboardsQuery(storeId);
 
   if (isCategoryLoading || isBillboardsLoading) {
     return null;
