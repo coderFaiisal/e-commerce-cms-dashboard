@@ -1,16 +1,23 @@
-import { Separator } from "@/components/ui/separator";
+"use client";
 
-export default function ProfilePage() {
+import { SettingsForm } from "./components/settingsForm";
+import { useGetSingleStoreQuery } from "@/redux/features/store/storeApi";
+
+const SettingsPage = ({ params }: { params: { storeId: string } }) => {
+  const id = params.storeId;
+  const { data, isLoading } = useGetSingleStoreQuery(id);
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-medium">Profile</h3>
-        <p className="text-sm text-muted-foreground">
-          This is how others will see you on the site.
-        </p>
+    <div className="flex-col">
+      <div className="flex-1 space-y-4 p-8 pt-6">
+        <SettingsForm initialData={data} />
       </div>
-      <Separator />
-      <div>Things will appeare here</div>
     </div>
   );
-}
+};
+
+export default SettingsPage;

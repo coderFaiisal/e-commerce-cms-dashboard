@@ -61,7 +61,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
     if (res?.data?._id) {
       router.refresh();
-      toast.success("Store updated successfully");
+      toast.success("Name updated successfully");
     }
     if (res?.error) {
       toast.error(res?.error?.message);
@@ -76,8 +76,8 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
     const res: any = await deleteStore(id);
 
     if (res?.data?._id) {
-      router.push("/");
       toast.success("Store deleted successfully");
+      router.push("/");
     }
 
     if (res?.error) {
