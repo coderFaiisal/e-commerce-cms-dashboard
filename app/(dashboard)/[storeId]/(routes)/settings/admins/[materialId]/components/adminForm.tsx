@@ -1,13 +1,11 @@
 "use client";
 
+import * as z from "zod";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
-
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,56 +16,66 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Separator } from "@/components/ui/separator";
+import { Heading } from "@/components/ui/heading";
 import CustomLoader from "@/components/customLoader";
 import { RingLoader } from "react-spinners";
-import { useChangePasswordMutation } from "@/redux/features/admin/adminApi";
+import { useCreateAdminMutation } from "@/redux/features/admin/adminApi";
+import ImageUpload from "@/components/ui/imageUpload";
 
 const formSchema = z
   .object({
-    oldPassword: z
-      .string({ required_error: "Old password is required" })
+    name: z.string({ required_error: "Name is required" }).min(1),
+    email: z.string({ required_error: "Email is required" }).email(),
+    image: z.string({ required_error: "Image is required" }),
+    password: z
+      .string({ required_error: "Password is required" })
       .min(6, { message: "Password must be 6 or more long" }),
-    newPassword: z
-      .string({ required_error: "New password is required" })
-      .min(6, { message: "Password must be 6 or more long" }),
-    confirmNewPassword: z
+    confirmPassword: z
       .string({
-        required_error: "Confirm new password is required",
+        required_error: "Confirm password is required",
       })
       .min(6, { message: "Password must be 6 or more long" }),
   })
   .refine(
     (values) => {
-      return values.newPassword === values.confirmNewPassword;
+      return values.password === values.confirmPassword;
     },
     {
       message: "Confirm passwords does not match!",
-      path: ["confirmNewPassword"],
+      path: ["confirmPassword"],
     }
   );
 
-type ChangePasswordFormValues = z.infer<typeof formSchema>;
+type AdminFormValues = z.infer<typeof formSchema>;
 
-export const ChangePasswordForm = () => {
+export const AdminForm = () => {
   const params = useParams();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const [changePassword] = useChangePasswordMutation();
+  const [createAdmin] = useCreateAdminMutation();
 
-  const form = useForm<ChangePasswordFormValues>({
+  const form = useForm<AdminFormValues>({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = async (data: ChangePasswordFormValues) => {
+  const onSubmit = async (data: AdminFormValues) => {
     setLoading(true);
 
-    const res: any = await changePassword(data);
+    const adminData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      image: data.image,
+    };
 
-    if (res?.data?.modified === true) {
-      router.push(`/${params.storeId}/profile`);
-      toast.success("Password changed successfully");
+    const res: any = await createAdmin(adminData);
+
+    if (res?.data?._id) {
+      router.push(`/${params.storeId}/settings/admins`);
+      toast.success("Admin created successfully");
     } else if (res?.error) {
       toast.error(res?.error?.message);
     }
@@ -77,22 +85,75 @@ export const ChangePasswordForm = () => {
 
   return (
     <>
+      <Heading title="Create Admin" description="Create a new admin" />
+      <Separator />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <div className="md:grid md:grid-cols-3 gap-8">
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Admin Image</FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={loading}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange("")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="md:grid md:grid-cols-2 gap-8">
             <FormField
               control={form.control}
-              name="oldPassword"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Old Password</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Your old password"
+                      placeholder="Admin Name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Admin Email" type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Admin password"
                       type="password"
                       {...field}
                     />
@@ -104,33 +165,14 @@ export const ChangePasswordForm = () => {
 
             <FormField
               control={form.control}
-              name="newPassword"
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Your new password"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="confirmNewPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm New Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Confirm new password"
+                      placeholder="Confirm password"
                       type="password"
                       {...field}
                     />
@@ -143,13 +185,13 @@ export const ChangePasswordForm = () => {
           <Button disabled={loading} className="ml-auto" type="submit">
             {loading ? (
               <>
-                {"Change password"}
+                {"Create"}
                 <CustomLoader>
                   <RingLoader color="#ffffff" size={30} />
                 </CustomLoader>
               </>
             ) : (
-              "Change password"
+              "Create"
             )}
           </Button>
         </form>
