@@ -12,8 +12,6 @@ export function SidebarNav() {
 
   const pathname = usePathname();
 
-  console.log(pathname);
-
   const NavItems = [
     {
       title: "Manage Store",
@@ -37,7 +35,7 @@ export function SidebarNav() {
             buttonVariants({ variant: "ghost" }),
             pathname === item.href
               ? "bg-muted hover:bg-muted"
-              : "hover:bg-transparent hover:bg-slate-50",
+              : "hover:bg-transparent hover:bg-slate-50 dark:hover:bg-slate-600",
             "justify-start"
           )}
         >

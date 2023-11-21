@@ -12,6 +12,9 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
+import { removeAdminInfo } from "@/services/auth.service";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function AdminProfile({
   storeId,
@@ -20,6 +23,14 @@ export default function AdminProfile({
   storeId: string;
   data: any;
 }) {
+  const router = useRouter();
+
+  const handleSignOut = () => {
+    removeAdminInfo("accessToken");
+    toast.success("Signed out successfully");
+    router.push("/signIn");
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -51,7 +62,7 @@ export default function AdminProfile({
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleSignOut()}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Sign out</span>
         </DropdownMenuItem>
