@@ -40,9 +40,15 @@ import CustomLoader from "@/components/customLoader";
 import { RingLoader } from "react-spinners";
 
 const formSchema = z.object({
-  name: z.string().min(2),
-  code: z.string().min(2),
-  billboardId: z.string().min(1),
+  name: z
+    .string({ required_error: "Name is required" })
+    .min(3, { message: "Name at least 3 characters" }),
+  code: z
+    .string({ required_error: "Code is required" })
+    .min(2, { message: "Code at least 2 characters" }),
+  billboardId: z
+    .string({ required_error: "Billboard is required" })
+    .min(2, { message: "Billboard is required" }),
 });
 
 type CategoryFormValues = z.infer<typeof formSchema>;
@@ -79,8 +85,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     code: initialData?.code || "",
     billboardId: initialData?.billboardId?._id || "",
   };
-
-  console.log(initialData);
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),

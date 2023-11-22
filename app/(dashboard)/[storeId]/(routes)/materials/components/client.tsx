@@ -1,10 +1,8 @@
 "use client";
 
 import { redirect, useParams, useRouter } from "next/navigation";
-
 import { Plus } from "lucide-react";
 import { format } from "date-fns";
-
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -33,8 +31,7 @@ export const MaterialsClient = () => {
   const formattedMaterials: MaterialColumn[] = materials?.map((item: any) => ({
     id: item?._id,
     name: item?.name,
-    value: item?.value,
-    storeId: item?.storeId?._id,
+    carat: item?.caratId?.name,
     createdAt: format(new Date(item?.createdAt), "MMMM do, yyyy"),
   }));
 

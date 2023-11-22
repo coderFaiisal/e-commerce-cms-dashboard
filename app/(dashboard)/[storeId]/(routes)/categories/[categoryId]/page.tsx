@@ -9,7 +9,7 @@ const CategoryPage = () => {
   const params = useParams();
   const { storeId, categoryId } = params;
 
-  const { data: category ={}, isLoading: isCategoryLoading } =
+  const { data: category, isLoading: isCategoryLoading } =
     useGetSingleCategoryQuery(categoryId);
 
   const { data: billboards =[], isLoading: isBillboardsLoading } =

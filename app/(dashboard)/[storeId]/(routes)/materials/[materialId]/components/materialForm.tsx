@@ -31,19 +31,30 @@ import {
   useDeleteMaterialMutation,
   useUpdateMaterialMutation,
 } from "@/redux/features/material/materialApi";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
-  name: z.string().min(1),
-  value: z.string().min(1),
+  name: z.string({ required_error: "Name is required" }).min(1),
+  caratId: z.string({ required_error: "Carat is required" }).min(1),
 });
 
 type MaterialFormValues = z.infer<typeof formSchema>;
 
 interface MaterialFormProps {
   initialData: any;
+  carats: any;
 }
 
-export const MaterialForm: React.FC<MaterialFormProps> = ({ initialData }) => {
+export const MaterialForm: React.FC<MaterialFormProps> = ({
+  initialData,
+  carats,
+}) => {
   const params = useParams();
   const id = params.materialId;
   const storeId = params.storeId;
@@ -64,9 +75,9 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({ initialData }) => {
 
   const form = useForm<MaterialFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      label: "",
-      imageURL: "",
+    defaultValues: {
+      name: initialData?.name,
+      caratId: initialData?.caratId?._id,
     },
   });
 
@@ -85,7 +96,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({ initialData }) => {
     } else {
       const materialData = {
         name: data.name,
-        value: data.value,
+        caratId: data.caratId,
         storeId,
       };
 
@@ -165,17 +176,32 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name="value"
+              name="caratId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Value</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Material value"
-                      {...field}
-                    />
-                  </FormControl>
+                  <FormLabel>Carat</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a carat"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {carats?.map((carat: any) => (
+                        <SelectItem key={carat?._id} value={carat?._id}>
+                          {carat?.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

@@ -7,7 +7,7 @@ import { CellAction } from "./cell-action";
 export type MaterialColumn = {
   id: string;
   name: string;
-  value: string;
+  carat: string;
   createdAt: string;
 };
 
@@ -17,8 +17,8 @@ export const columns: ColumnDef<MaterialColumn>[] = [
     header: "Name",
   },
   {
-    accessorKey: "value",
-    header: "Value",
+    accessorKey: "carat",
+    header: "Carat",
   },
   {
     accessorKey: "createdAt",

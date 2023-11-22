@@ -45,13 +45,13 @@ import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   storeId: z.string().optional(),
-  categoryId: z.string().min(1, {
+  categoryId: z.string({ required_error: "Category is required" }).min(1, {
     message: "Select a category, please",
   }),
-  materialId: z.string().min(1, {
+  materialId: z.string({ required_error: "Material is required" }).min(1, {
     message: "Select a material, please",
   }),
-  caratId: z.string().min(1, {
+  caratId: z.string({ required_error: "Carat is required" }).min(1, {
     message: "Select a carat, please",
   }),
   name: z.string().min(3, {
@@ -91,7 +91,7 @@ const formSchema = z.object({
   dimensions: z.string().optional(),
   discounts: z.string().optional(),
   returnPolicy: z.string().optional(),
-  customizable: z.boolean().optional(),
+  customizable: z.boolean().default(false).optional(),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -163,12 +163,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     name: initialData?.name,
     price: initialData?.price,
     description: initialData?.description,
-    images: initialData?.images,
+    images: initialData?.images || [],
     isFeatured: initialData?.isFeatured,
     isArchived: initialData?.isArchived,
     status: initialData?.status,
     stockQuantity: initialData?.stockQuantity,
-    materials: initialData?.productMaterials,
+    materials: initialData?.materials || [],
     dimensions: initialData?.dimensions,
     discounts: initialData?.discounts,
     returnPolicy: initialData?.returnPolicy,
@@ -259,9 +259,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormLabel>Images</FormLabel>
                 <FormControl>
                   <ImageUpload
-                    value={field.value?.map((image: any) => image)}
+                    value={field?.value?.map((image: any) => image)}
                     disabled={loading}
-                    onChange={(url) => field.onChange([...field.value, url])}
+                    onChange={(url) => field.onChange([...field?.value, url])}
                     onRemove={(url) =>
                       field.onChange([
                         ...field.value.filter((current) => current !== url),
@@ -452,7 +452,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <SelectContent>
                       {carats?.map((carat: any) => (
                         <SelectItem key={carat._id} value={carat._id}>
-                          {carat.name}
+                          {`${carat?.name} - ${carat?.value}`}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -484,8 +484,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     </FormControl>
                     <SelectContent>
                       {materials?.map((material: any) => (
-                        <SelectItem key={material._id} value={material._id}>
-                          {material.name}
+                        <SelectItem key={material?._id} value={material?._id}>
+                          {`${material.name} - ${material?.caratId?.name}`}
                         </SelectItem>
                       ))}
                     </SelectContent>

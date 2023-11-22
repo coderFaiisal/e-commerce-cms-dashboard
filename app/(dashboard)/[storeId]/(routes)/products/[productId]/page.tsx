@@ -13,7 +13,7 @@ const ProductPage = () => {
 
   const { storeId, productId } = params;
 
-  const { data: product = {}, isLoading: isProductLoading } =
+  const { data: product, isLoading: isProductLoading } =
     useGetSingleProductQuery(productId);
 
   const { data: categories = [], isLoading: isCategoriesLoading } =

@@ -30,13 +30,6 @@ import {
   useDeleteCaratMutation,
   useUpdateCaratMutation,
 } from "@/redux/features/carat/caratApi";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z.string().min(1),
