@@ -29,6 +29,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ params }) => {
     redirect("/signIn");
   }
 
+  
+
   const storeId = params.storeId;
 
   const { data: orders, isLoading: isOrdersLoading } =

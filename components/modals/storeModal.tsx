@@ -57,7 +57,6 @@ export const StoreModal = () => {
     }
 
     setLoading(false);
-    onClose();
   };
 
   return (
