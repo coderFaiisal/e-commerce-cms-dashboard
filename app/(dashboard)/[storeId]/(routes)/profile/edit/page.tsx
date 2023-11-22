@@ -5,7 +5,7 @@ import { ProfileForm } from "./components/profileForm";
 import { ChangePasswordForm } from "./components/changePasswordForm";
 
 const EditProfilePage = () => {
-  const { data = [], isLoading } = useGetAdminProfileQuery({});
+  const { data = {}, isLoading } = useGetAdminProfileQuery({});
 
   if (isLoading) {
     return null;

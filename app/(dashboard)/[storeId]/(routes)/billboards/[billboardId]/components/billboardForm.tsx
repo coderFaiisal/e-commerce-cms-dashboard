@@ -78,15 +78,15 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       const res: any = await updateBillboard({ id, data });
 
       if (res?.data?._id) {
-        router.push(`/${params.storeId}/billboards`);
+        router.push(`/${params?.storeId}/billboards`);
         toast.success("Billboard updated successfully");
       } else if (res?.error) {
         toast.error(res?.error?.message);
       }
     } else {
       const billboardData = {
-        label: data.label,
-        imageURL: data.imageURL,
+        label: data?.label,
+        imageURL: data?.imageURL,
         storeId,
       };
 

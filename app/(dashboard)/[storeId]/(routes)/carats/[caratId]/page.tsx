@@ -4,7 +4,7 @@ import { useGetSingleCaratQuery } from "@/redux/features/carat/caratApi";
 import { CaratForm } from "./components/caratForm";
 
 const CaratPage = ({ params }: { params: { caratId: string } }) => {
-  const { data: carat, isLoading } = useGetSingleCaratQuery(params.caratId);
+  const { data: carat ={}, isLoading } = useGetSingleCaratQuery(params.caratId);
 
   if (isLoading) {
     return null;

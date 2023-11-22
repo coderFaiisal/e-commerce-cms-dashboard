@@ -18,7 +18,11 @@ export default function SetupLayout({
     setIsMounted(true);
   }, []);
 
-  if (!isMounted || isLoading) {
+  if (!isMounted) {
+    return null;
+  }
+
+  if (isLoading) {
     return null;
   }
 

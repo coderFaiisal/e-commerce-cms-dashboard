@@ -10,11 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Avatar, AvatarImage } from "./ui/avatar";
+import { Avatar } from "./ui/avatar";
 import Link from "next/link";
 import { removeAdminInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import CustomImage from "./customImage";
 
 export default function AdminProfile({
   storeId,
@@ -36,9 +37,13 @@ export default function AdminProfile({
       <DropdownMenuTrigger asChild>
         <Avatar>
           {data?.image ? (
-            <AvatarImage src={data?.image} alt="admin image" />
+            <CustomImage src={data?.image} alt="admin image" priority={true} />
           ) : (
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <CustomImage
+              src="https://github.com/shadcn.png"
+              alt="default image"
+              priority={true}
+            />
           )}
         </Avatar>
       </DropdownMenuTrigger>

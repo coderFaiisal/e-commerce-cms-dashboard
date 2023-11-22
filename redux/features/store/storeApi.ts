@@ -16,6 +16,7 @@ const storeApi = baseApi.injectEndpoints({
         url: "/stores/isStoreExist",
         method: "GET",
       }),
+      providesTags: ["store"],
     }),
 
     getAllStores: build.query({

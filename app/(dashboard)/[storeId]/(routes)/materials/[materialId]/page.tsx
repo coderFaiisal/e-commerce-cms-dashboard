@@ -4,7 +4,7 @@ import { useGetSingleMaterialQuery } from "@/redux/features/material/materialApi
 import { MaterialForm } from "./components/materialForm";
 
 const MaterialPage = ({ params }: { params: { materialId: string } }) => {
-  const { data: material, isLoading } = useGetSingleMaterialQuery(
+  const { data: material = {}, isLoading } = useGetSingleMaterialQuery(
     params.materialId
   );
 

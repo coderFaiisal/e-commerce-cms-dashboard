@@ -13,16 +13,16 @@ const ProductPage = () => {
 
   const { storeId, productId } = params;
 
-  const { data: product, isLoading: isProductLoading } =
+  const { data: product = {}, isLoading: isProductLoading } =
     useGetSingleProductQuery(productId);
 
-  const { data: categories, isLoading: isCategoriesLoading } =
+  const { data: categories = [], isLoading: isCategoriesLoading } =
     useGetAllCategoriesQuery(storeId);
 
-  const { data: carats, isLoading: isCaratLoading } =
+  const { data: carats = [], isLoading: isCaratLoading } =
     useGetAllCaratsQuery(storeId);
 
-  const { data: materials, isLoading: isMaterialLoading } =
+  const { data: materials = [], isLoading: isMaterialLoading } =
     useGetAllMaterialsQuery(storeId);
 
   if (

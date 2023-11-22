@@ -4,7 +4,9 @@ import { useGetSingleOrderQuery } from "@/redux/features/order/orderApi";
 import { OrderForm } from "./components/orderForm";
 
 const OrderPage = ({ params }: { params: { orderId: string } }) => {
-  const { data: order, isLoading } = useGetSingleOrderQuery(params.orderId);
+  const { data: order = {}, isLoading } = useGetSingleOrderQuery(
+    params.orderId
+  );
 
   if (isLoading) {
     return null;

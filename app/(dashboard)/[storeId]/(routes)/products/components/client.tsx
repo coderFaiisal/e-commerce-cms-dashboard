@@ -33,7 +33,7 @@ export const ProductsClient = () => {
     category: item?.categoryId?.name,
     carat: item?.caratId?.name,
     material: item?.materialId?.name,
-    createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
+    createdAt: format(new Date(item?.createdAt), "MMMM do, yyyy"),
   }));
 
   return (

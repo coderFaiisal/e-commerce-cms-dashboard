@@ -25,11 +25,11 @@ export const CaratsClient = () => {
   }
 
   const formattedCarats: CaratColumn[] = carats?.map((item: any) => ({
-    id: item._id,
-    name: item.name,
-    value: item.value,
-    storeId: item.storeId._id,
-    createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
+    id: item?._id,
+    name: item?.name,
+    value: item?.value,
+    storeId: item?.storeId?._id,
+    createdAt: format(new Date(item?.createdAt), "MMMM do, yyyy"),
   }));
 
   return (

@@ -13,7 +13,7 @@ export const ProfileCard = () => {
   const params = useParams();
   const router = useRouter();
 
-  const { data: admin = [], isLoading } = useGetAdminProfileQuery({});
+  const { data: admin = {}, isLoading } = useGetAdminProfileQuery({});
 
   if (isLoading) {
     return null;

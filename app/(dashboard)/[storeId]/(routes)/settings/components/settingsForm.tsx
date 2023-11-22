@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
@@ -60,7 +59,6 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
     const res: Record<string, any> = await updateStore({ id, data });
 
     if (res?.data?._id) {
-      router.refresh();
       toast.success("Name updated successfully");
     }
     if (res?.error) {

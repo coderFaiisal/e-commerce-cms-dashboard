@@ -27,10 +27,10 @@ export const BillboardsClient = () => {
 
   const formattedBillboards: BillboardColumn[] = billboards?.map(
     (item: any) => ({
-      id: item._id,
-      storeId: item.storeId,
-      label: item.label,
-      createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
+      id: item?._id,
+      storeId: item?.storeId,
+      label: item?.label,
+      createdAt: format(new Date(item?.createdAt), "MMMM do, yyyy"),
     })
   );
 

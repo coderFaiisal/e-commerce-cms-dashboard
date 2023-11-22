@@ -27,13 +27,13 @@ export const CategoriesClient = () => {
 
   const formattedCategories: CategoryColumn[] = categories?.map(
     (item: any) => ({
-      id: item._id,
-      name: item.name,
-      code: item.code,
-      storeId: item.storeId._id,
-      billboardId: item.billboardId._id,
-      billboardLabel: item.billboardId.label,
-      createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
+      id: item?._id,
+      name: item?.name,
+      code: item?.code,
+      storeId: item?.storeId?._id,
+      billboardId: item?.billboardId?._id,
+      billboardLabel: item?.billboardId?.label,
+      createdAt: format(new Date(item?.createdAt), "MMMM do, yyyy"),
     })
   );
 

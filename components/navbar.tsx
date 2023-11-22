@@ -6,7 +6,7 @@ import { useGetAllStoresQuery } from "@/redux/features/store/storeApi";
 import { ThemeToggle } from "./themeToggle";
 
 const Navbar = ({ storeId }: { storeId: string }) => {
-  const { data: stores } = useGetAllStoresQuery({});
+  const { data: stores = [] } = useGetAllStoresQuery({});
   const { data } = useGetAdminProfileQuery({});
 
   return (

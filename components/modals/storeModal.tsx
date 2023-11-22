@@ -31,7 +31,7 @@ export const StoreModal = () => {
 
   const [createStore] = useCreateStoreMutation();
 
-  const { isOpen } = useAppSelector((state) => state.store);
+  const { isOpen } = useAppSelector((state: any) => state.store);
   const dispatch = useAppDispatch();
   const onClose = () => dispatch(handleClose());
 
@@ -41,9 +41,6 @@ export const StoreModal = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-    },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -53,7 +50,8 @@ export const StoreModal = () => {
 
     if (res?.data?._id) {
       toast.success("Store created successfully");
-      router.push(`/${res?.data?._id}`);
+      router.push(`/${res.data._id}`);
+      form.reset({ name: "" });
     } else if (res?.error) {
       toast.error(res?.error?.message);
     }
@@ -86,7 +84,12 @@ export const StoreModal = () => {
               )}
             />
             <div className=" pt-6 space-x-2 flex items-center justify-end ">
-              <Button disabled={loading} variant="outline" onClick={onClose}>
+              <Button
+                disabled={loading}
+                type="button"
+                variant="outline"
+                onClick={onClose}
+              >
                 Cancel
               </Button>
               <Button disabled={loading} type="submit">

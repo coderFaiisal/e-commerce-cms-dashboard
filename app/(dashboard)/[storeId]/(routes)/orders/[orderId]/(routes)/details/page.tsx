@@ -16,7 +16,7 @@ import { ProductsTable } from "./components/client";
 const OrderDetails = ({ params }: { params: { orderId: string } }) => {
   const id = params.orderId;
 
-  const { data: order, isLoading } = useGetSingleOrderQuery(id);
+  const { data: order ={}, isLoading } = useGetSingleOrderQuery(id);
 
   if (isLoading) {
     return null;
@@ -39,6 +39,8 @@ const OrderDetails = ({ params }: { params: { orderId: string } }) => {
                 "w-20 text-center p-1 rounded-xl",
                 order?.orderStatus === "pending"
                   ? "bg-red-200 text-red-700"
+                  : order?.orderStatus === "processing"
+                  ? "bg-blue-200 text-blue-700"
                   : "bg-green-200 text-green-700"
               )}
             >
@@ -89,7 +91,10 @@ const OrderDetails = ({ params }: { params: { orderId: string } }) => {
                       Total Cost: ${order?.totalCost}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Payment Status:{" "}
+                      Shipping Charge: ${order?.shippingCharge}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Payment Status:
                       {order?.isPaid === true ? "Paid" : "Unpaid"}
                     </p>
                     <p className="text-sm text-muted-foreground">

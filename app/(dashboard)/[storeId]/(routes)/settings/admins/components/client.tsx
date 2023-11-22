@@ -24,11 +24,11 @@ export const AdminsClient = () => {
   }
 
   const formattedAdmins: AdminColumn[] = admins?.map((item: any) => ({
-    id: item._id,
-    name: item.name,
-    email: item.email,
-    image: item.image,
-    createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
+    id: item?._id,
+    name: item?.name,
+    email: item?.email,
+    image: item?.image,
+    createdAt: format(new Date(item?.createdAt), "MMMM do, yyyy"),
   }));
 
   return (

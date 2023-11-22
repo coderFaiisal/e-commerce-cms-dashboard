@@ -20,13 +20,13 @@ export const OrdersClient = () => {
   }
 
   const formattedOrders: OrderColumn[] = orders?.map((item: any) => ({
-    id: item._id,
-    trackingNumber: item.trackingNumber,
-    phoneNumber: item.contactInformation.phoneNumber,
-    totalCost: item.totalCost,
-    isPaid: item.isPaid,
-    orderStatus: item.orderStatus,
-    createdAt: format(new Date(item.createdAt), "MMMM do, yyyy"),
+    id: item?._id,
+    trackingNumber: item?.trackingNumber,
+    phoneNumber: item?.contactInformation?.phoneNumber,
+    totalCost: item?.totalCost,
+    isPaid: item?.isPaid,
+    orderStatus: item?.orderStatus,
+    createdAt: format(new Date(item?.createdAt), "MMMM do, yyyy"),
   }));
 
   return (
@@ -38,7 +38,11 @@ export const OrdersClient = () => {
         />
       </div>
       <Separator />
-      <DataTable searchKey="orderStatus" columns={columns} data={formattedOrders} />
+      <DataTable
+        searchKey="orderStatus"
+        columns={columns}
+        data={formattedOrders}
+      />
     </>
   );
 };

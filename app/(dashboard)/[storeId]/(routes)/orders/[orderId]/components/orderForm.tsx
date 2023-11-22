@@ -107,11 +107,14 @@ export const OrderForm: React.FC<OrderFormProps> = ({ order }) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem key="deliverd" value="deliverd">
-                        deliverd
-                      </SelectItem>
                       <SelectItem key="pending" value="pending">
                         pending
+                      </SelectItem>
+                      <SelectItem key="processing" value="processing">
+                        processing
+                      </SelectItem>
+                      <SelectItem key="delivered" value="delivered">
+                        delivered
                       </SelectItem>
                     </SelectContent>
                   </Select>

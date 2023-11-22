@@ -4,7 +4,7 @@ import { BillboardForm } from "./components/billboardForm";
 import { useGetSingleBillboardQuery } from "@/redux/features/billboard/billboardApi";
 
 const BillboardPage = ({ params }: { params: { billboardId: string } }) => {
-  const { data: billboard, isLoading } = useGetSingleBillboardQuery(
+  const { data: billboard = {}, isLoading } = useGetSingleBillboardQuery(
     params.billboardId
   );
 
