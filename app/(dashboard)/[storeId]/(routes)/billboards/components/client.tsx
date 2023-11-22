@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 
 import { Plus } from "lucide-react";
 import { format } from "date-fns";
@@ -12,8 +12,14 @@ import { DataTable } from "@/components/ui/dataTable";
 
 import { columns, BillboardColumn } from "./columns";
 import { useGetAllBillboardsQuery } from "@/redux/features/billboard/billboardApi";
+import { getAdminInfo } from "@/services/auth.service";
 
 export const BillboardsClient = () => {
+  const admin = getAdminInfo();
+  if (!admin) {
+    redirect("/signIn");
+  }
+
   const params = useParams();
   const storeId = params.storeId;
   const router = useRouter();

@@ -1,9 +1,16 @@
 "use client";
 
+import { getAdminInfo } from "@/services/auth.service";
 import { SettingsForm } from "./components/settingsForm";
 import { useGetSingleStoreQuery } from "@/redux/features/store/storeApi";
+import { redirect } from "next/navigation";
 
 const SettingsPage = ({ params }: { params: { storeId: string } }) => {
+  const admin = getAdminInfo();
+  if (!admin) {
+    redirect("/signIn");
+  }
+
   const id = params.storeId;
   const { data, isLoading } = useGetSingleStoreQuery(id);
 

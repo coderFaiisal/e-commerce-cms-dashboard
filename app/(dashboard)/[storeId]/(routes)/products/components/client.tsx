@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 
 import { Plus } from "lucide-react";
 import { format } from "date-fns";
@@ -11,8 +11,14 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/dataTable";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { ProductColumn, columns } from "./columns";
+import { getAdminInfo } from "@/services/auth.service";
 
 export const ProductsClient = () => {
+  const admin = getAdminInfo();
+  if (!admin) {
+    redirect("/signIn");
+  }
+
   const params = useParams();
   const storeId = params.storeId;
 

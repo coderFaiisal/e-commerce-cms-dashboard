@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 
 import { Plus } from "lucide-react";
 import { format } from "date-fns";
@@ -11,8 +11,14 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/dataTable";
 import { CategoryColumn, columns } from "./columns";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
+import { getAdminInfo } from "@/services/auth.service";
 
 export const CategoriesClient = () => {
+  const admin = getAdminInfo();
+  if (!admin) {
+    redirect("/signIn");
+  }
+
   const params = useParams();
   const storeId = params.storeId;
 

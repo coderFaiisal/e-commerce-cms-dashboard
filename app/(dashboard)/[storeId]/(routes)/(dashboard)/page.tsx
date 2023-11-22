@@ -1,9 +1,7 @@
 "use client";
 
 import { CreditCard, DollarSign, Package } from "lucide-react";
-
 import { Separator } from "@/components/ui/separator";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { formatter } from "@/lib/utils";
@@ -11,7 +9,8 @@ import { Overview } from "@/components/overview";
 import { useGetAllOrdersQuery } from "@/redux/features/order/orderApi";
 import { TotalRevenue } from "./components/totalRevenue";
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
-import AdminProfile from "@/components/adminProfile";
+import { getAdminInfo } from "@/services/auth.service";
+import { redirect } from "next/navigation";
 
 interface GraphData {
   name: string;
@@ -25,6 +24,11 @@ interface DashboardPageProps {
 }
 
 const DashboardPage: React.FC<DashboardPageProps> = ({ params }) => {
+  const admin = getAdminInfo();
+  if (!admin) {
+    redirect("/signIn");
+  }
+
   const storeId = params.storeId;
 
   const { data: orders, isLoading: isOrdersLoading } =

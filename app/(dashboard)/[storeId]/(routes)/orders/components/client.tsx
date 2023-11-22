@@ -7,9 +7,15 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/dataTable";
 import { useGetAllOrdersQuery } from "@/redux/features/order/orderApi";
 import { OrderColumn, columns } from "./columns";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
+import { getAdminInfo } from "@/services/auth.service";
 
 export const OrdersClient = () => {
+  const admin = getAdminInfo();
+  if (!admin) {
+    redirect("/signIn");
+  }
+
   const params = useParams();
   const storeId = params.storeId;
 

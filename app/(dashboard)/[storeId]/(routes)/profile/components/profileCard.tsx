@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
@@ -8,8 +8,14 @@ import { Separator } from "@/components/ui/separator";
 
 import { useGetAdminProfileQuery } from "@/redux/features/admin/adminApi";
 import CustomImage from "@/components/customImage";
+import { getAdminInfo } from "@/services/auth.service";
 
 export const ProfileCard = () => {
+  const isAdminExist = getAdminInfo();
+  if (!isAdminExist) {
+    redirect("/signIn");
+  }
+
   const params = useParams();
   const router = useRouter();
 

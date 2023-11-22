@@ -1,6 +1,7 @@
 "use client";
 
 import Navbar from "@/components/navbar";
+import { useIsStoreExistQuery } from "@/redux/features/store/storeApi";
 import { getAdminInfo } from "@/services/auth.service";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,17 +17,22 @@ export default function DashboardLayout({
 
   const [isMounted, setIsMounted] = useState(false);
   const admin = getAdminInfo();
+  const { data: store, isLoading } = useIsStoreExistQuery({});
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) {
+  if (!isMounted || isLoading) {
     return null;
   }
 
   if (!admin) {
     redirect("/signIn");
+  }
+
+  if (!store) {
+    redirect("/");
   }
 
   return (
