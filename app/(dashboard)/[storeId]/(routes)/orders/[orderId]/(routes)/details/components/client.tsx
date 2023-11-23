@@ -42,7 +42,11 @@ export const ProductsTable = ({ products }: ProductsClientProps) => {
             <TableCell className="font-medium">
               <div className="flex items-center">
                 <div className="w-10 h-10 mr-4">
-                  <CustomImage src={product?.image} alt="product image" />
+                  <CustomImage
+                    className="w-full h-full"
+                    src={product?.image}
+                    alt="product image"
+                  />
                 </div>
                 {product?.name}
               </div>

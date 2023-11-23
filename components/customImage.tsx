@@ -1,15 +1,22 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface ImageProps {
   src: string;
   alt: string;
   priority?: boolean;
+  className?: string;
 }
 
-export default function CustomImage({ src, alt, priority }: ImageProps) {
+export default function CustomImage({
+  src,
+  alt,
+  priority,
+  className,
+}: ImageProps) {
   return (
     <Image
-      className="w-full h-auto rounded-lg mx-auto"
+      className={cn("w-full h-auto rounded-lg mx-auto", className)}
       src={src}
       alt={alt}
       sizes="(min-width: 720px) 650px, calc(95.5vw - 19px)"

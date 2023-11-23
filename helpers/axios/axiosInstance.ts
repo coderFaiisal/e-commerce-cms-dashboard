@@ -43,8 +43,6 @@ instance.interceptors.response.use(
 
       const response = await getNewAccessToken();
 
-      console.log(response);
-
       const accessToken = response?.data?.accessToken;
 
       config.headers["Authorization"] = accessToken;
