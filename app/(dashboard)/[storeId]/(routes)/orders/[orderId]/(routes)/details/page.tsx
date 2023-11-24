@@ -16,7 +16,7 @@ import { ProductsTable } from "./components/client";
 const OrderDetails = ({ params }: { params: { orderId: string } }) => {
   const id = params.orderId;
 
-  const { data: order ={}, isLoading } = useGetSingleOrderQuery(id);
+  const { data: order = {}, isLoading } = useGetSingleOrderQuery(id);
 
   if (isLoading) {
     return null;
@@ -49,7 +49,7 @@ const OrderDetails = ({ params }: { params: { orderId: string } }) => {
             <CardContent className="p-12 ">
               <div className="grid gap-4 grid-cols-1  md:grid-cols-3">
                 <div className="flex space-x-2">
-                  <User2 className="h-8 w-8 p-2 mt-2 text-white bg-black rounded-full" />
+                  <User2 className="h-8 w-8 p-2 mt-2 text-white dark:text-black bg-black dark:bg-white rounded-full" />
                   <div>
                     <h1 className="text-xl font-medium">Customer</h1>
                     <p className="text-sm text-muted-foreground">
@@ -68,7 +68,7 @@ const OrderDetails = ({ params }: { params: { orderId: string } }) => {
                 </div>
 
                 <div className="flex space-x-2">
-                  <ShoppingCart className="h-8 w-8 p-2 mt-2 text-white bg-black rounded-full" />
+                  <ShoppingCart className="h-8 w-8 p-2 mt-2 text-white dark:text-black bg-black dark:bg-white rounded-full" />
                   <div>
                     <h1 className="text-xl font-medium">Order Info</h1>
                     <p className="text-sm text-muted-foreground">
@@ -84,7 +84,7 @@ const OrderDetails = ({ params }: { params: { orderId: string } }) => {
                 </div>
 
                 <div className="flex space-x-2">
-                  <CreditCard className="h-8 w-8 p-2 mt-2 text-white bg-black rounded-full" />
+                  <CreditCard className="h-8 w-8 p-2 mt-2  text-white dark:text-black bg-black dark:bg-white rounded-full" />
                   <div>
                     <h1 className="text-xl font-medium">Payment Info</h1>
                     <p className="text-sm text-muted-foreground">
@@ -105,7 +105,7 @@ const OrderDetails = ({ params }: { params: { orderId: string } }) => {
               </div>
 
               <div className="flex space-x-2 my-8">
-                <ScrollText className="h-8 w-8 p-2 mt-2 text-white bg-black rounded-full" />
+                <ScrollText className="h-8 w-8 p-2 mt-2 text-white dark:text-black bg-black dark:bg-white rounded-full" />
                 <div>
                   <h1 className="text-xl font-medium">Notes</h1>
                   <p className="text-sm text-muted-foreground">

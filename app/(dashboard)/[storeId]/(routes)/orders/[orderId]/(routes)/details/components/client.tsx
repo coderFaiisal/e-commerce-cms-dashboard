@@ -28,7 +28,7 @@ export const ProductsTable = ({ products }: ProductsClientProps) => {
 
   return (
     <Table>
-      <TableHeader className="bg-slate-50">
+      <TableHeader className="bg-slate-50 dark:bg-gray-800">
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead>Quantity</TableHead>
