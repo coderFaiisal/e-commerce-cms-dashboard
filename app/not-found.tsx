@@ -1,31 +1,26 @@
+"use client";
+
 import CustomImage from "@/components/customImage";
+import { Button } from "@/components/ui/button";
+import { Undo2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const NotFound = () => {
+  const router = useRouter();
+
   return (
-    <div className="lg:px-24 lg:py-24 md:py-20 md:px-44 px-4 py-24 items-center flex justify-center flex-col-reverse lg:flex-row md:gap-28 gap-16">
-      <div className="xl:pt-24 w-full xl:w-1/2 relative pb-12 lg:pb-0">
-        <div className="relative">
-          <div className="absolute">
-            <div className="">
-              <h1 className="my-2 text-gray-800 font-bold text-2xl">
-                Looks like you have found the doorway to the great nothing
-              </h1>
-              <p className="my-2 text-gray-800">
-                Sorry about that! Please visit our hompage to get where you need
-                to go.
-              </p>
-              <button className="sm:w-full lg:w-auto my-2 border rounded md py-4 px-8 text-center bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-opacity-50">
-                Take me there!
-              </button>
-            </div>
-          </div>
-          <div>
-            <CustomImage
-              src="https://res.cloudinary.com/dr4fo7fxu/image/upload/v1700740609/wnnkqf5tb1c2sskfwlwh.png"
-              alt="not found bg"
-            />
-          </div>
-        </div>
+    <div className="lg:px-24 lg:py-12 md:py-8 md:px-44 px-4 py-4 flex items-center justify-center flex-col-reverse lg:flex-row md:gap-14 gap-8">
+      <div className="w-full lg:w-1/2 relative p-4 lg:pb-0">
+        <h1 className="my-2 text-gray-800 font-bold text-xl lg:text-2xl">
+          Page Not Found!!!
+        </h1>
+        <p className="my-2 text-gray-800 text-muted-foreground">
+          Sorry about that! Please visit our hompage to get where you need to
+          go.
+        </p>
+        <Button onClick={() => router.push("/")}>
+          Back To Home <Undo2 className=" ml-2 w-4 h-4" />
+        </Button>
       </div>
       <div>
         <CustomImage
