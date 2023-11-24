@@ -1,3 +1,4 @@
+import { authKey } from "@/constants/storageKey";
 import { getNewAccessToken, removeAdminInfo } from "@/services/auth.service";
 import { IGenericErrorResponse, ResponseSuccessType } from "@/types/common";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
@@ -12,7 +13,7 @@ instance.defaults.timeout = 60000;
 
 instance.interceptors.request.use(
   function (config) {
-    const accessToken = getFromLocalStorage("accessToken");
+    const accessToken = getFromLocalStorage(authKey);
 
     if (accessToken) {
       config.headers.Authorization = accessToken;
@@ -49,11 +50,11 @@ instance.interceptors.response.use(
 
         config.headers["Authorization"] = accessToken;
 
-        setToLocalStorage("accessToken", accessToken);
+        setToLocalStorage(authKey, accessToken);
 
         return instance(config);
       } else {
-        removeAdminInfo("accessToken");
+        removeAdminInfo(authKey);
         toast.message("Something went wrong!", {
           description: "Please, sign in again...",
         });

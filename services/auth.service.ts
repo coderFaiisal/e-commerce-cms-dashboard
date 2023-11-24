@@ -1,13 +1,14 @@
+import { authKey } from "@/constants/storageKey";
 import { instance as axiosInstance } from "@/helpers/axios/axiosInstance";
 import { decodedToken } from "@/utils/jwt";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
 
 export const storeAdminInfo = (accessToken: string) => {
-  return setToLocalStorage("accessToken", accessToken);
+  return setToLocalStorage(authKey, accessToken);
 };
 
 export const getAdminInfo = () => {
-  const authToken = getFromLocalStorage("accessToken");
+  const authToken = getFromLocalStorage(authKey);
 
   if (authToken) {
     const decodedData = decodedToken(authToken);
@@ -18,7 +19,7 @@ export const getAdminInfo = () => {
 };
 
 export const isLoggedIn = () => {
-  const authToken = getFromLocalStorage("accessToken");
+  const authToken = getFromLocalStorage(authKey);
   return !!authToken;
 };
 
@@ -28,7 +29,7 @@ export const removeAdminInfo = (key: string) => {
 
 export const getNewAccessToken = async () => {
   return await axiosInstance({
-    url: `http://localhost:5000/api/v1/admins/refresh-token`,
+    url: `https://timeless-backend.vercel.app/api/v1/admins/refresh-token`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     withCredentials: true,

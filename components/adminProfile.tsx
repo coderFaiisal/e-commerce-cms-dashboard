@@ -16,6 +16,7 @@ import { removeAdminInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import CustomImage from "./customImage";
+import { authKey } from "@/constants/storageKey";
 
 export default function AdminProfile({
   storeId,
@@ -27,7 +28,7 @@ export default function AdminProfile({
   const router = useRouter();
 
   const handleSignOut = () => {
-    removeAdminInfo("accessToken");
+    removeAdminInfo(authKey);
     toast.success("Signed out successfully");
     router.push("/signIn");
   };
