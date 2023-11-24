@@ -4,6 +4,7 @@ import { MainNav } from "./mainNav";
 import StoreSwitcher from "./storeSwitcher";
 import { useGetAllStoresQuery } from "@/redux/features/store/storeApi";
 import { ThemeToggle } from "./themeToggle";
+import ResponsiveNav from "./responsiveNav";
 
 const Navbar = ({ storeId }: { storeId: string }) => {
   const { data: stores = [] } = useGetAllStoresQuery({});

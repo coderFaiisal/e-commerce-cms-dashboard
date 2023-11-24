@@ -1,5 +1,6 @@
 import { authKey } from "@/constants/storageKey";
 import { instance as axiosInstance } from "@/helpers/axios/axiosInstance";
+import { getBaseUrl } from "@/helpers/config/envConfig";
 import { decodedToken } from "@/utils/jwt";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
 
@@ -29,7 +30,7 @@ export const removeAdminInfo = (key: string) => {
 
 export const getNewAccessToken = async () => {
   return await axiosInstance({
-    url: `https://timeless-backend.vercel.app/api/v1/admins/refresh-token`,
+    url: `${getBaseUrl()}/admins/refresh-token`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     withCredentials: true,

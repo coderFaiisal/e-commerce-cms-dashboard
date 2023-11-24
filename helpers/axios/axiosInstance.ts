@@ -38,6 +38,7 @@ instance.interceptors.response.use(
   },
 
   async function (error) {
+
     const config = error?.config;
 
     if (error?.response?.status === 403 && !config?.sent) {
@@ -46,6 +47,7 @@ instance.interceptors.response.use(
       const response = await getNewAccessToken();
 
       if (response?.data?.accessToken) {
+
         const accessToken = response.data.accessToken;
 
         config.headers["Authorization"] = accessToken;
@@ -55,6 +57,7 @@ instance.interceptors.response.use(
         return instance(config);
       } else {
         removeAdminInfo(authKey);
+
         toast.message("Something went wrong!", {
           description: "Please, sign in again...",
         });

@@ -1,11 +1,10 @@
 import { axiosBaseQuery } from "@/helpers/axios/axiosBaseQuery";
+import { getBaseUrl } from "@/helpers/config/envConfig";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
   reducerPath: "api",
-  baseQuery: axiosBaseQuery({
-    baseUrl: "https://timeless-backend.vercel.app/api/v1",
-  }),
+  baseQuery: axiosBaseQuery({ baseUrl: getBaseUrl() }),
   endpoints: () => ({}),
   tagTypes: [
     "admin",
