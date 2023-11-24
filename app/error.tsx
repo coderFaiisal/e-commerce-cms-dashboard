@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 
 const ErrorPage = () => {
   const router = useRouter();
+
+  const handleBackToHome = () => {
+    router.push("/");
+    router.refresh();
+  };
   return (
     <div className="flex justify-center items-center w-full min-h-screen">
       <div className="text-center">
@@ -28,7 +33,7 @@ const ErrorPage = () => {
           </svg>
         </div>
         <p className="mt-4 text-gray-600">
-          <Button onClick={() => router.push("/")}>Back to Home</Button>
+          <Button onClick={handleBackToHome}>Back to Home</Button>
         </p>
       </div>
     </div>

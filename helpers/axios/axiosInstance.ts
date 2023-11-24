@@ -1,7 +1,8 @@
-import { getNewAccessToken } from "@/services/auth.service";
+import { getNewAccessToken, removeAdminInfo } from "@/services/auth.service";
 import { IGenericErrorResponse, ResponseSuccessType } from "@/types/common";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
 import axios from "axios";
+import { toast } from "sonner";
 
 const instance = axios.create();
 
@@ -43,13 +44,20 @@ instance.interceptors.response.use(
 
       const response = await getNewAccessToken();
 
-      const accessToken = response?.data?.accessToken;
+      if (response?.data?.accessToken) {
+        const accessToken = response.data.accessToken;
 
-      config.headers["Authorization"] = accessToken;
+        config.headers["Authorization"] = accessToken;
 
-      setToLocalStorage("accessToken", accessToken);
+        setToLocalStorage("accessToken", accessToken);
 
-      return instance(config);
+        return instance(config);
+      } else {
+        removeAdminInfo("accessToken");
+        toast.message("Something went wrong!", {
+          description: "Please, sign in again...",
+        });
+      }
     } else {
       const responseObject: IGenericErrorResponse = {
         statusCode: error?.response?.data?.statusCode || 500,
