@@ -5,10 +5,11 @@ import { useParams, usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
-export function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+interface MainNavProps {
+  onClose: () => void;
+}
+
+export function MainNav({ onClose }: MainNavProps) {
   const pathname = usePathname();
   const params = useParams();
 
@@ -51,24 +52,22 @@ export function MainNav({
   ];
 
   return (
-    <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6 ", className)}
-      {...props}
-    >
+    <div className="flex flex-col  md:flex-row md:items-center space-y-1 md:space-y-0 px-2 md:px-0 pb-3 md:pb-0 pt-2 md:pt-0 md:space-x-[2px] mx-2 ">
       {routes.map((route) => (
         <Link
+          onClick={onClose}
           key={route.href}
           href={route.href}
           className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
+            "hover:bg-slate-200 dark:hover:bg-gray-800 rounded-md py-2 text-sm px-2 font-medium transition-colors hover:text-primary",
             route.active
-              ? "text-black dark:text-white"
+              ? "bg-black text-white dark:bg-white dark:text-black"
               : "text-muted-foreground"
           )}
         >
           {route.label}
         </Link>
       ))}
-    </nav>
+    </div>
   );
 }
