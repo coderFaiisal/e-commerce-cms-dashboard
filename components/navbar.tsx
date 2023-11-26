@@ -20,6 +20,7 @@ const Navbar = ({ storeId }: { storeId: string }) => {
           <AdminProfile storeId={storeId} data={data} />
         </div>
       </div>
+      <ResponsiveNav storeId={storeId} data={data} items={stores} />
     </div>
   );
 };
