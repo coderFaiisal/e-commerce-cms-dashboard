@@ -121,11 +121,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ params }) => {
             </CardContent>
           </Card>
         </div>
-        <Card className="col-span-4 overflow-scroll no-scrollbar">
+        <Card className="col-span-4 overflow-x-scroll md:overflow-hidden">
           <CardHeader>
             <CardTitle>Transactions</CardTitle>
           </CardHeader>
-          <CardContent className="pl-2 min-w-[600px]">
+          <CardContent className="pl-2 min-w-[768px]">
             <Overview data={graphRevenue} />
           </CardContent>
         </Card>
