@@ -43,8 +43,12 @@ export const ProfileCard = () => {
           />
         </div>
         <div>
-          <h1 className="text-xl font-semibold">Name : {admin?.name}</h1>
-          <p className="text-muted-foreground">Email : {admin?.email}</p>
+          <h1 className="text-base md:text-xl font-semibold mb-2 md:mb-0">
+            Name : {admin?.name}
+          </h1>
+          <p className="text-sm md:text-base text-muted-foreground">
+            Email : {admin?.email}
+          </p>
         </div>
       </div>
     </>

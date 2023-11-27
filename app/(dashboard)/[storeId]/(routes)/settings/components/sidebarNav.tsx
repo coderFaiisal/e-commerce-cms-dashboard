@@ -26,7 +26,7 @@ export function SidebarNav() {
   ];
 
   return (
-    <nav className="h-[450px] flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1">
+    <nav className="h-auto md:h-[450px] flex space-x-2 md:flex-col md:space-x-0 :space-y-1">
       {NavItems?.map((item) => (
         <Link
           key={item.href}
