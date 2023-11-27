@@ -75,7 +75,7 @@ const Navbar = ({ storeId }: { storeId: string }) => {
 
       <div
         className={cn(
-          "md:hidden bg-white dark:bg-black",
+          "md:hidden bg-white dark:bg-black ",
           isOpen ? "block" : "hidden"
         )}
       >

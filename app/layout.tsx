@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-        <body className={`${inter.className} `}>
+        <body className={`${inter.className} no-scrollbar`}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
           </ThemeProvider>

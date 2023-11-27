@@ -82,7 +82,7 @@ export const ChangePasswordForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <div className="md:grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-4 md:gap-8">
             <FormField
               control={form.control}
               name="oldPassword"
@@ -120,7 +120,7 @@ export const ChangePasswordForm = () => {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="confirmNewPassword"
