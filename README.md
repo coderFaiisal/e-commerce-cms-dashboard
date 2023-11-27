@@ -2,11 +2,15 @@
 
 This is a repository for a Full Stack E-Commerce Dashboard.
 
-## [Admin Dashboard](https://timeless-jewellery-admin.vercel.app/) ### [User Frontend](#) ### [Backend Repository](https://github.com/coderFaiisal/Timeless-backend.git)
+## [Admin Dashboard](https://timeless-jewellery-admin.vercel.app/)
 
-## Test Admin Dashboard
+### Test admin dashboard using this email and password
 
 - Email: tester@tj.com Password: tester.tj
+
+### [User Frontend](#)
+
+### [Backend Repository](https://github.com/coderFaiisal/Timeless-backend.git)
 
 Key Features:
 
