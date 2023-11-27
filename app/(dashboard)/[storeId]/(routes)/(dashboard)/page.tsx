@@ -29,8 +29,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ params }) => {
     redirect("/signIn");
   }
 
-  
-
   const storeId = params.storeId;
 
   const { data: orders, isLoading: isOrdersLoading } =
@@ -94,10 +92,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ params }) => {
               <CardTitle className="text-sm font-medium">
                 Total Amount
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <DollarSign className="hidden md:block h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-sm md:text-2xl font-bold">
                 {formatter.format(totalRevenue)}
               </div>
             </CardContent>
@@ -105,10 +103,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ params }) => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Sales</CardTitle>
-              <CreditCard className="h-4 w-4 text-muted-foreground" />
+              <CreditCard className="hidden md:block h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+{salesCount}</div>
+              <div className="text-sm md:text-2xl font-bold">+{salesCount}</div>
             </CardContent>
           </Card>
           <Card>
@@ -116,18 +114,18 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ params }) => {
               <CardTitle className="text-sm font-medium">
                 Products In Stock
               </CardTitle>
-              <Package className="h-4 w-4 text-muted-foreground" />
+              <Package className="hidden md:block h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stockCount}</div>
+              <div className="text-sm md:text-2xl font-bold">{stockCount}</div>
             </CardContent>
           </Card>
         </div>
-        <Card className="col-span-4">
+        <Card className="col-span-4 overflow-scroll no-scrollbar">
           <CardHeader>
             <CardTitle>Transactions</CardTitle>
           </CardHeader>
-          <CardContent className="pl-2">
+          <CardContent className="pl-2 min-w-[600px]">
             <Overview data={graphRevenue} />
           </CardContent>
         </Card>
