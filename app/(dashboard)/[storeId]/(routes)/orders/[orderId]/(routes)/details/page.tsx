@@ -26,7 +26,7 @@ const OrderDetails = ({ params }: { params: { orderId: string } }) => {
     <div className="flex">
       <div className="flex-1 space-y-4 p-8 pt-6">
         <Heading title={`Order Details`} description="All about this order" />
-        <Card>
+        <Card className="w-[400px] mx-auto md:w-full">
           <CardHeader>
             <CardDescription className=" font-bold">
               Order: #{order?.trackingNumber}
@@ -46,7 +46,7 @@ const OrderDetails = ({ params }: { params: { orderId: string } }) => {
             >
               {order?.orderStatus}
             </CardDescription>
-            <CardContent className="p-12 ">
+            <CardContent className="p-2 md:p-12">
               <div className="grid gap-4 grid-cols-1  md:grid-cols-3">
                 <div className="flex space-x-2">
                   <User2 className="h-8 w-8 p-2 mt-2 text-white dark:text-black bg-black dark:bg-white rounded-full" />
@@ -124,7 +124,7 @@ const OrderDetails = ({ params }: { params: { orderId: string } }) => {
               </div>
 
               <div className="flex-col">
-                <div className="flex-1 space-y-4 p-8 pt-6">
+                <div className="flex-1 space-y-4 p-0 md:p-8 pt-6">
                   <ProductsTable products={order?.orderItems} />
                 </div>
               </div>
