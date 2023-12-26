@@ -10,11 +10,12 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/dataTable";
 
-import { columns, BillboardColumn } from "./columns";
-import { useGetAllBillboardsQuery } from "@/redux/features/billboard/billboardApi";
-import { getAdminInfo } from "@/services/auth.service";
+import { BannerColumn, columns } from "./columns";
 
-export const BillboardsClient = () => {
+import { getAdminInfo } from "@/services/auth.service";
+import { useGetAllBannersQuery } from "@/redux/features/banner/bannerApi";
+
+export const BannersClient = () => {
   const admin = getAdminInfo();
   if (!admin) {
     redirect("/signIn");
@@ -24,14 +25,14 @@ export const BillboardsClient = () => {
   const storeId = params.storeId;
   const router = useRouter();
 
-  const { data: billboards = [], isLoading } =
-    useGetAllBillboardsQuery(storeId);
+  const { data: banners = [], isLoading } =
+    useGetAllBannersQuery(storeId);
 
   if (isLoading) {
     return null;
   }
 
-  const formattedBillboards: BillboardColumn[] = billboards?.map(
+  const formattedBanners: BannerColumn[] = banners?.map(
     (item: any) => ({
       id: item?._id,
       storeId: item?.storeId,
@@ -44,11 +45,11 @@ export const BillboardsClient = () => {
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Billboards (${formattedBillboards?.length})`}
-          description="Manage billboards for your store"
+          title={`Banners (${formattedBanners?.length})`}
+          description="Manage banners for your store"
         />
         <Button
-          onClick={() => router.push(`/${params?.storeId}/billboards/new`)}
+          onClick={() => router.push(`/${params?.storeId}/banners/new`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>
@@ -57,7 +58,7 @@ export const BillboardsClient = () => {
       <DataTable
         searchKey="label"
         columns={columns}
-        data={formattedBillboards}
+        data={formattedBanners}
       />
     </>
   );
