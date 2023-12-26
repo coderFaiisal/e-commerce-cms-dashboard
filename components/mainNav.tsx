@@ -20,6 +20,11 @@ export function MainNav({ onClose }: MainNavProps) {
       active: pathname === `/${params.storeId}`,
     },
     {
+      href: `/${params.storeId}/banners`,
+      label: "Banners",
+      active: pathname === `/${params.storeId}/banners`,
+    },
+    {
       href: `/${params.storeId}/billboards`,
       label: "Billboards",
       active: pathname === `/${params.storeId}/billboards`,

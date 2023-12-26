@@ -10,6 +10,7 @@ export const baseApi = createApi({
     "admin",
     "store",
     "billboard",
+    "banner",
     "category",
     "carat",
     "material",
