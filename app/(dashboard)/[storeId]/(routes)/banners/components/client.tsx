@@ -25,21 +25,18 @@ export const BannersClient = () => {
   const storeId = params.storeId;
   const router = useRouter();
 
-  const { data: banners = [], isLoading } =
-    useGetAllBannersQuery(storeId);
+  const { data: banners = [], isLoading } = useGetAllBannersQuery(storeId);
 
   if (isLoading) {
     return null;
   }
 
-  const formattedBanners: BannerColumn[] = banners?.map(
-    (item: any) => ({
-      id: item?._id,
-      storeId: item?.storeId,
-      label: item?.label,
-      createdAt: format(new Date(item?.createdAt), "MMMM do, yyyy"),
-    })
-  );
+  const formattedBanners: BannerColumn[] = banners?.map((item: any) => ({
+    id: item?._id,
+    storeId: item?.storeId,
+    label: item?.label,
+    createdAt: format(new Date(item?.createdAt), "MMMM do, yyyy"),
+  }));
 
   return (
     <>
@@ -48,18 +45,12 @@ export const BannersClient = () => {
           title={`Banners (${formattedBanners?.length})`}
           description="Manage banners for your store"
         />
-        <Button
-          onClick={() => router.push(`/${params?.storeId}/banners/new`)}
-        >
+        <Button onClick={() => router.push(`/${params?.storeId}/banners/new`)}>
           <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>
       </div>
       <Separator />
-      <DataTable
-        searchKey="label"
-        columns={columns}
-        data={formattedBanners}
-      />
+      <DataTable searchKey="label" columns={columns} data={formattedBanners} />
     </>
   );
 };
