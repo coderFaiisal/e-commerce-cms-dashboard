@@ -1,19 +1,19 @@
-import { authKey } from "@/constants/storageKey";
-import { getNewAccessToken, removeAdminInfo } from "@/services/auth.service";
-import { IGenericErrorResponse, ResponseSuccessType } from "@/types/common";
-import { getFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
-import axios from "axios";
-import { toast } from "sonner";
+import { authKey } from '@/constants/authKey';
+import { getNewAccessToken, removeUserInfo } from '@/services/auth.service';
+import { ResponseSuccessType, TGenericErrorResponse } from '@/types/common';
+import { getFromCookies, setToCookies } from '@/utils/cookiesStorage';
+import { notify } from '@/utils/customToast';
+import axios from 'axios';
 
 const instance = axios.create();
 
-instance.defaults.headers.post["Content-Type"] = "application/json";
-instance.defaults.headers["Accept"] = "application/json";
+instance.defaults.headers.post['Content-Type'] = 'application/json';
+instance.defaults.headers['Accept'] = 'application/json';
 instance.defaults.timeout = 60000;
 
 instance.interceptors.request.use(
   function (config) {
-    const accessToken = getFromLocalStorage(authKey);
+    const accessToken = getFromCookies(authKey);
 
     if (accessToken) {
       config.headers.Authorization = accessToken;
@@ -23,11 +23,12 @@ instance.interceptors.request.use(
   },
   function (error) {
     return Promise.reject(error);
-  }
+  },
 );
 
 instance.interceptors.response.use(
-  //@ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
   function (response) {
     const responseObject: ResponseSuccessType = {
       data: response?.data?.data,
@@ -38,7 +39,6 @@ instance.interceptors.response.use(
   },
 
   async function (error) {
-
     const config = error?.config;
 
     if (error?.response?.status === 403 && !config?.sent) {
@@ -47,30 +47,27 @@ instance.interceptors.response.use(
       const response = await getNewAccessToken();
 
       if (response?.data?.accessToken) {
-
         const accessToken = response.data.accessToken;
 
-        config.headers["Authorization"] = accessToken;
+        config.headers['Authorization'] = accessToken;
 
-        setToLocalStorage(authKey, accessToken);
+        setToCookies(authKey, accessToken);
 
         return instance(config);
       } else {
-        removeAdminInfo(authKey);
+        removeUserInfo(authKey);
 
-        toast.message("Something went wrong!", {
-          description: "Please, sign in again...",
-        });
+        notify('error', 'Something went wrong!');
       }
     } else {
-      const responseObject: IGenericErrorResponse = {
+      const responseObject: TGenericErrorResponse = {
         statusCode: error?.response?.data?.statusCode || 500,
-        message: error?.response?.data?.message || "Something went wrong",
+        message: error?.response?.data?.message || 'Something went wrong',
         errorMessages: error?.response?.data?.errorMessages,
       };
       return { error: responseObject };
     }
-  }
+  },
 );
 
 export { instance };

@@ -1,0 +1,32 @@
+export const pricingCards = [
+  {
+    id: 1,
+    title: 'Basic',
+    description: 'Perfect for trying out Invento.',
+    price: 50,
+    duration: 'mon',
+    highlight: 'Key features',
+    features: ['3 stores.', '300 products.', '24/7 Support team.'],
+    priceId: '',
+  },
+  {
+    id: 2,
+    title: 'Pro',
+    description: 'For advanced users and agencies.',
+    price: 1000,
+    duration: 'year',
+    highlight: 'Key features',
+    features: ['10 stores.', '10000 product.', '24/7 Support team.'],
+    priceId: '',
+  },
+  {
+    id: 3,
+    title: 'Enterprise',
+    description: 'For advanced users and agencies.',
+    price: 2000,
+    duration: 'year',
+    highlight: 'Key features',
+    features: ['Unlimited stores.', 'Unlimited product.', '24/7 Support team.'],
+    priceId: '',
+  },
+];

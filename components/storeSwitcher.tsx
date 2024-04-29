@@ -1,10 +1,10 @@
-"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
 
-import * as React from "react";
-import { Check, ChevronsUpDown, PlusCircle, Store } from "lucide-react";
+import { Check, ChevronsUpDown, PlusCircle, Store } from 'lucide-react';
+import * as React from 'react';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -13,23 +13,22 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
+} from '@/components/ui/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { useParams, useRouter } from "next/navigation";
-import { useAppDispatch } from "@/redux/hook";
-import { handleOpen } from "@/redux/features/store/storeSlice";
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { useParams, useRouter } from 'next/navigation';
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
 >;
 
-interface StoreSwitcherProps extends PopoverTriggerProps {
+type StoreSwitcherProps = {
   items: Record<string, any>[];
-}
+} & PopoverTriggerProps;
 
 export default function StoreSwitcher({
   className,
@@ -38,17 +37,13 @@ export default function StoreSwitcher({
   const params = useParams();
   const router = useRouter();
 
-  const dispatch = useAppDispatch();
-
-  const onOpen = () => dispatch(handleOpen());
-
-  const formattedItems = items.map((item) => ({
+  const formattedItems = items.map(item => ({
     label: item.name,
     value: item._id,
   }));
 
   const currentStore = formattedItems.find(
-    (item) => item.value === params.storeId
+    item => item.value === params.storeId,
   );
 
   const [open, setOpen] = React.useState(false);
@@ -67,7 +62,7 @@ export default function StoreSwitcher({
           role="combobox"
           aria-expanded={open}
           aria-label="Select a store"
-          className={cn("w-[200px] justify-between", className)}
+          className={cn('w-[200px] justify-between', className)}
         >
           <Store className="mr-2 h-4 w-4" />
           {currentStore?.label}
@@ -80,7 +75,7 @@ export default function StoreSwitcher({
             <CommandInput placeholder="Search store..." />
             <CommandEmpty>No store found!</CommandEmpty>
             <CommandGroup heading="Stores">
-              {formattedItems.map((store) => (
+              {formattedItems.map(store => (
                 <CommandItem
                   key={store.value}
                   onSelect={() => onStoreSelect(store)}
@@ -90,10 +85,10 @@ export default function StoreSwitcher({
                   {store.label}
                   <Check
                     className={cn(
-                      "ml-auto h-4 w-4",
+                      'ml-auto h-4 w-4',
                       currentStore?.value === store.value
-                        ? "opacity-100"
-                        : "opacity-0"
+                        ? 'opacity-100'
+                        : 'opacity-0',
                     )}
                   />
                 </CommandItem>
@@ -106,7 +101,6 @@ export default function StoreSwitcher({
               <CommandItem
                 onSelect={() => {
                   setOpen(false);
-                  onOpen();
                 }}
               >
                 <PlusCircle className="mr-2 h-5 w-5" />

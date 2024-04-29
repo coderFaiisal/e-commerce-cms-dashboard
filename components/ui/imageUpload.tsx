@@ -1,18 +1,20 @@
-"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-vars */
+'use client';
 
-import { CldUploadWidget } from "next-cloudinary";
-import { useEffect, useState } from "react";
+import { CldUploadWidget } from 'next-cloudinary';
+import React, { useEffect, useState } from 'react';
 
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { ImagePlus, Trash } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { ImagePlus, Trash } from 'lucide-react';
 
-interface ImageUploadProps {
+type ImageUploadProps = {
   disabled?: boolean;
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
   value: string[];
-}
+};
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
@@ -37,7 +39,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
-        {value?.map((url) => (
+        {value?.map(url => (
           <div
             key={url}
             className="relative w-[200px] h-[200px] rounded-md overflow-hidden"

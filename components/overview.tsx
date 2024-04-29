@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Bar,
@@ -8,12 +8,14 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
-import CustomTooltip from "./customTooltip";
+} from 'recharts';
+import CustomTooltip from './customTooltip';
+import React from 'react';
 
-interface OverviewProps {
+type OverviewProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
-}
+};
 
 export const Overview: React.FC<OverviewProps> = ({ data }) => {
   return (
@@ -31,7 +33,7 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => `$${value}`}
+          tickFormatter={value => `$${value}`}
         />
         <Tooltip
           content={<CustomTooltip payload={data} />}

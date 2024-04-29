@@ -1,38 +1,43 @@
-import { authKey } from "@/constants/storageKey";
-import { instance as axiosInstance } from "@/helpers/axios/axiosInstance";
-import { getBaseUrl } from "@/helpers/config/envConfig";
-import { decodedToken } from "@/utils/jwt";
-import { getFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
+import { authKey } from '@/constants/authKey';
+import { instance as axiosInstance } from '@/helpers/axios/axiosInstance';
+import { CustomJwtPayload } from '@/types/common';
+import { decodedToken } from '@/utils/jwtDecode';
 
-export const storeAdminInfo = (accessToken: string) => {
-  return setToLocalStorage(authKey, accessToken);
+import { getBaseUrl } from '@/helpers/config/envConfig';
+import {
+  getFromCookies,
+  removeFromCookies,
+  setToCookies,
+} from '@/utils/cookiesStorage';
+
+export const storeUserInfo = (accessToken: string) => {
+  return setToCookies(authKey, accessToken);
 };
 
-export const getAdminInfo = () => {
-  const authToken = getFromLocalStorage(authKey);
+export const getClientUserInfo = () => {
+  const authToken = getFromCookies(authKey);
 
   if (authToken) {
-    const decodedData = decodedToken(authToken);
+    const decodedData = decodedToken(authToken as string) as CustomJwtPayload;
     return decodedData;
-  } else {
-    return "";
   }
+  return { id: '', role: '' };
 };
 
 export const isLoggedIn = () => {
-  const authToken = getFromLocalStorage(authKey);
+  const authToken = getFromCookies(authKey);
   return !!authToken;
 };
 
-export const removeAdminInfo = (key: string) => {
-  return localStorage.removeItem(key);
+export const removeUserInfo = (key: string) => {
+  return removeFromCookies(key);
 };
 
 export const getNewAccessToken = async () => {
   return await axiosInstance({
-    url: `${getBaseUrl()}/admins/refresh-token`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    url: `${getBaseUrl()}/auth/refresh-token`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   });
 };

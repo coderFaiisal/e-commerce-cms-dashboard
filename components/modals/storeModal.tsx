@@ -1,112 +1,106 @@
-"use client";
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// 'use client';
 
-import * as z from "zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+// import { zodResolver } from '@hookform/resolvers/zod';
+// import { useState } from 'react';
+// import { useForm } from 'react-hook-form';
+// import * as z from 'zod';
 
-import { Modal } from "@/components/ui/modal";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+// import { Button } from '@/components/ui/button';
+// import {
+//   Form,
+//   FormControl,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from '@/components/ui/form';
+// import { Input } from '@/components/ui/input';
+// import { Modal } from '@/components/ui/modal';
 
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { handleClose } from "@/redux/features/store/storeSlice";
-import { useCreateStoreMutation } from "@/redux/features/store/storeApi";
-import CustomLoader from "../customLoader";
-import { RingLoader } from "react-spinners";
-import { useRouter } from "next/navigation";
+// // import { useCreateStoreMutation } from "@/redux/features/store/storeApi";
 
-export const StoreModal = () => {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+// import { Loader } from 'lucide-react';
 
-  const [createStore] = useCreateStoreMutation();
+// export const StoreModal = () => {
+//   const [loading, setLoading] = useState(false);
 
-  const { isOpen } = useAppSelector((state: any) => state.store);
-  const dispatch = useAppDispatch();
-  const onClose = () => dispatch(handleClose());
+//   // const [createStore] = useCreateStoreMutation();
 
-  const formSchema = z.object({
-    name: z.string().min(2),
-  });
+//   // const { isOpen } = useAppSelector((state: any) => state.store);
+//   // const dispatch = useAppDispatch();
+//   // const onClose = () => dispatch(handleClose());
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
+//   const formSchema = z.object({
+//     name: z.string().min(2),
+//   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true);
+//   const form = useForm<z.infer<typeof formSchema>>({
+//     resolver: zodResolver(formSchema),
+//   });
 
-    const res: any = await createStore(values);
+//   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+//     setLoading(true);
 
-    if (res?.data?._id) {
-      toast.success("Store created successfully");
-      router.push(`/${res.data._id}`);
-      form.reset({ name: "" });
-    } else if (res?.error) {
-      toast.error(res?.error?.message);
-    }
+//     // const res: any = await createStore(values);
 
-    setLoading(false);
-  };
+//     // if (res?.data?._id) {
+//     //   notify('succss', 'Store created successfully');
+//     //   router.push(`/${res.data._id}`);
+//     //   form.reset({ name: '' });
+//     // } else if (res?.error) {
+//     //   toast('error', res?.error?.message);
+//     // }
 
-  return (
-    <Modal
-      title="Create Store"
-      description="Add a new store to manage categories and products"
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <div>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="Store" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className=" pt-6 space-x-2 flex items-center justify-end ">
-              <Button
-                disabled={loading}
-                type="button"
-                variant="outline"
-                onClick={onClose}
-              >
-                Cancel
-              </Button>
-              <Button disabled={loading} type="submit">
-                {loading ? (
-                  <>
-                    Continue
-                    <CustomLoader>
-                      <RingLoader color="#ffffff" size={30} />
-                    </CustomLoader>
-                  </>
-                ) : (
-                  "Continue"
-                )}
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </div>
-    </Modal>
-  );
-};
+//     setLoading(false);
+//   };
+
+//   return (
+//     <Modal
+//       title="Create Store"
+//       description="Add a new store to manage categories and products"
+//       // isOpen={isOpen}
+//       // onClose={onClose}
+//     >
+//       <div>
+//         <Form {...form}>
+//           <form onSubmit={form.handleSubmit(onSubmit)}>
+//             <FormField
+//               control={form.control}
+//               name="name"
+//               render={({ field }) => (
+//                 <FormItem>
+//                   <FormLabel>Name</FormLabel>
+//                   <FormControl>
+//                     <Input disabled={loading} placeholder="Store" {...field} />
+//                   </FormControl>
+//                   <FormMessage />
+//                 </FormItem>
+//               )}
+//             />
+//             <div className=" pt-6 space-x-2 flex items-center justify-end ">
+//               <Button
+//                 disabled={loading}
+//                 type="button"
+//                 variant="outline"
+//                 // onClick={onClose}
+//               >
+//                 Cancel
+//               </Button>
+//               <Button disabled={loading} type="submit">
+//                 {loading ? (
+//                   <>
+//                     Continue
+//                     <Loader size={20} className="animate-spin" />
+//                   </>
+//                 ) : (
+//                   'Continue'
+//                 )}
+//               </Button>
+//             </div>
+//           </form>
+//         </Form>
+//       </div>
+//     </Modal>
+//   );
+// };

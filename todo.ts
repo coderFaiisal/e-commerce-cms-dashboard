@@ -1,3 +1,3 @@
-//* 1. user, admin password reset/forget functionality with email varification.
-
-// Test here.
+// * Complete home page design.
+// * Complete authentication works.
+// * Setup Zustand, React Query.

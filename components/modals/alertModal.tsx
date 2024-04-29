@@ -1,18 +1,17 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import { Modal } from "@/components/ui/modal";
-import { Button } from "@/components/ui/button";
-import CustomLoader from "../customLoader";
-import { RingLoader } from "react-spinners";
+import { Button } from '@/components/ui/button';
+import { Modal } from '@/components/ui/modal';
+import Loader from '../loader';
 
-interface AlertModalProps {
+type AlertModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   loading: boolean;
-}
+};
 
 export const AlertModal: React.FC<AlertModalProps> = ({
   isOpen,
@@ -46,12 +45,10 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           {loading ? (
             <>
               Continue
-              <CustomLoader>
-                <RingLoader color="#ffffff" size={30} />
-              </CustomLoader>
+              <Loader />
             </>
           ) : (
-            "Continue"
+            'Continue'
           )}
         </Button>
       </div>

@@ -1,40 +1,29 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { Button } from '@/components/ui/button';
+import { User } from 'lucide-react';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 const ErrorPage = () => {
-  const router = useRouter();
-
   const handleBackToHome = () => {
-    router.push("/");
-    router.refresh();
+    redirect('/');
   };
   return (
-    <div className="flex justify-center items-center w-full min-h-screen">
-      <div className="text-center">
-        <h1 className="mb-4 text-6xl font-semibold text-red-500">
-          404 error!!!
-        </h1>
-        <p className="mb-4 text-lg">Oops! Looks like you are lost.</p>
-        <div className="animate-bounce">
-          <svg
-            className="mx-auto h-16 w-16"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-            ></path>
-          </svg>
+    <div className="flex justify-center items-center flex-col h-screen gap-y-2">
+      <h1 className="text-5xl md:text-6xl font-bold">500</h1>
+      <h2 className="text-2xl md:text-3xl text-center">
+        Internal Server Error!!!
+      </h2>
+      <div className="flex flex-col md:flex-row gap-4">
+        <Button onClick={handleBackToHome}>Get Back</Button>
+        <div className="flex justify-center items-center">
+          <Link href={'/support'}>
+            <Button variant={'secondary'}>
+              Contact Support <User className="w-5 h-5 ml-2" />
+            </Button>
+          </Link>
         </div>
-        <p className="mt-4 text-gray-600">
-          <Button onClick={handleBackToHome}>Back to Home</Button>
-        </p>
       </div>
     </div>
   );

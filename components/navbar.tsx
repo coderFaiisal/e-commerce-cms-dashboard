@@ -1,20 +1,15 @@
-"use client";
+'use client';
 
-import { useGetAdminProfileQuery } from "@/redux/features/admin/adminApi";
-import AdminProfile from "./adminProfile";
-import { MainNav } from "./mainNav";
-import StoreSwitcher from "./storeSwitcher";
-import { useGetAllStoresQuery } from "@/redux/features/store/storeApi";
-import { ThemeToggle } from "./themeToggle";
-import { useEffect, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { cn } from '@/lib/utils';
+import { Menu, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { MainNav } from './mainNav';
+import StoreSwitcher from './storeSwitcher';
+import { ThemeToggle } from './themeToggle';
+import { Button } from './ui/button';
+import UserProfile from './userProfile';
 
-const Navbar = ({ storeId }: { storeId: string }) => {
-  const { data: stores = [] } = useGetAllStoresQuery({});
-  const { data } = useGetAdminProfileQuery({});
-
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
 
@@ -27,6 +22,7 @@ const Navbar = ({ storeId }: { storeId: string }) => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleClickOutside = (event: any) => {
       if (navRef.current && !navRef.current.contains(event.target)) {
         closeMenu();
@@ -34,13 +30,13 @@ const Navbar = ({ storeId }: { storeId: string }) => {
     };
 
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
 
@@ -50,7 +46,7 @@ const Navbar = ({ storeId }: { storeId: string }) => {
         <div className="absolute inset-y-0 left-2 flex items-center md:hidden">
           <Button
             onClick={toggleMenu}
-            variant={"outline"}
+            variant={'outline'}
             className="relative px-3 h-9"
           >
             {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -59,7 +55,7 @@ const Navbar = ({ storeId }: { storeId: string }) => {
 
         <div className="flex flex-1 items-stretch justify-start ml-10 md:ml-1">
           <div className="flex flex-shrink-0 items-center">
-            <StoreSwitcher items={stores} />
+            <StoreSwitcher items={[]} />
           </div>
 
           <div className="hidden md:block">
@@ -69,14 +65,14 @@ const Navbar = ({ storeId }: { storeId: string }) => {
 
         <div className=" ml-auto flex items-center space-x-4">
           <ThemeToggle />
-          <AdminProfile storeId={storeId} data={data} />
+          <UserProfile />
         </div>
       </div>
 
       <div
         className={cn(
-          "md:hidden bg-white dark:bg-black ",
-          isOpen ? "block " : "hidden"
+          'md:hidden bg-white dark:bg-black ',
+          isOpen ? 'block ' : 'hidden',
         )}
       >
         <MainNav onClose={closeMenu} />

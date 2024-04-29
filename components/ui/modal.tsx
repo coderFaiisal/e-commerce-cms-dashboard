@@ -1,20 +1,21 @@
-"use client";
+'use client';
 
+import React from 'react';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "./dialog";
+} from './dialog';
 
-interface ModalProps {
+type ModalProps = {
   title: string;
   description: string;
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;
-}
+};
 
 export const Modal: React.FC<ModalProps> = ({
   title,

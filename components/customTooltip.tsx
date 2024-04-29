@@ -1,4 +1,5 @@
-"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
