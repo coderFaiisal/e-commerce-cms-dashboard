@@ -23,7 +23,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useUserLoginMutation } from '@/redux/api/authApi';
+import { useUserSignInMutation } from '@/helpers/reactQueryStore/userApi';
 import { storeUserInfo } from '@/services/auth.service';
 import { notify } from '@/utils/customToast';
 import { Loader2 } from 'lucide-react';
@@ -35,7 +35,7 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const [userLogin] = useUserLoginMutation();
+  const { mutateAsync } = useUserSignInMutation();
 
   const FormSchema = z.object({
     email: z.string().email(),
@@ -52,14 +52,14 @@ const SignIn = () => {
     },
   });
 
-  async function onSubmit(loginData: z.infer<typeof FormSchema>) {
+  async function onSubmit(signInData: z.infer<typeof FormSchema>) {
     setLoading(true);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res: any = await userLogin(loginData);
+    const res: any = await mutateAsync(signInData);
 
     if (res && res?.data?.accessToken) {
-      notify('success', 'Login in successfully!');
+      notify('success', 'Sign in successfully.');
       storeUserInfo(res?.data?.accessToken);
       router.push('/');
     } else {

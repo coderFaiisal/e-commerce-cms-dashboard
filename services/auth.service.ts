@@ -21,7 +21,7 @@ export const getUserInfo = () => {
     return decodedData;
   }
   return {
-    id: null,
+    email: null,
     role: null,
   };
 };

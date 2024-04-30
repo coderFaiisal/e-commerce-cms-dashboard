@@ -1,5 +1,4 @@
 import { JwtPayload } from 'jwt-decode';
-import { LucideIcon } from 'lucide-react';
 
 export type TMeta = {
   limit: number;
@@ -24,38 +23,18 @@ export type TGenericErrorMessage = {
   message: string;
 };
 
-export type TRegisterResponse = {
+export type TSignUpResponse = {
   data: {
-    id: string;
-    email: string;
-    role: string;
+    accessToken: string;
   };
-  accessToken: string;
 };
 
 export type CustomJwtPayload = {
-  id: string;
+  email: string;
   role: string;
 } & JwtPayload;
 
-export type TSideNavItemsProps = {
-  title: string;
-  label: string;
-  link: string;
-  key: string;
-  icon: LucideIcon;
-  variant:
-    | 'ghost'
-    | 'link'
-    | 'default'
-    | 'destructive'
-    | 'outline'
-    | 'secondary'
-    | null
-    | undefined;
-}[];
-
 export type User = {
-  id: string;
+  email: string;
   role: string;
 };

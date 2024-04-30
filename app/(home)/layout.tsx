@@ -1,5 +1,3 @@
-'use client';
-
 import Container from '@/components/container';
 import NavBar from '@/components/home/navBar';
 import React from 'react';

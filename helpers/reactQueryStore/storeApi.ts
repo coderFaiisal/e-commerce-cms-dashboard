@@ -6,7 +6,7 @@ const queryClient = new QueryClient();
 
 const useCreateStoreMutation = () =>
   useMutation({
-    mutationFn: async (storeData: TStore) =>
+    mutationFn: async (storeData: Partial<TStore>) =>
       axiosBaseQuery({
         url: '/stores/create',
         method: 'POST',
