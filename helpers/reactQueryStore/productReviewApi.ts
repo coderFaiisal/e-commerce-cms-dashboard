@@ -1,6 +1,6 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { axiosBaseQuery } from '../axios/axiosBaseQuery';
-import { TProductReview } from './../../types/product';
+import { TProductReview } from '../../types/product';
 
 const queryClient = new QueryClient();
 
