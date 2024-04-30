@@ -67,7 +67,7 @@ const useDeleteProductMutation = () =>
       }),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['product', 'products'] });
+      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 

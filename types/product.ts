@@ -15,3 +15,10 @@ export type TProduct = {
   categoryId: string;
   attributeIds: string[];
 };
+
+export type TProductReview = {
+  rating: number;
+  message?: string;
+  productId: string;
+  userId?: string;
+};

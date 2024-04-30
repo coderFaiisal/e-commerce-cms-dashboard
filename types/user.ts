@@ -13,3 +13,8 @@ export type TSignUp = {
   gender?: string;
   dob?: string;
 };
+
+export type TChangePassword = {
+  oldPassword: string;
+  newPassword: string;
+};

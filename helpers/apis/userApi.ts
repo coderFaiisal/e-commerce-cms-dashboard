@@ -1,4 +1,4 @@
-import { TSignIn, TSignUp } from '@/types/auth';
+import { TChangePassword, TSignIn, TSignUp } from '@/types/user';
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { axiosBaseQuery } from '../axios/axiosBaseQuery';
 
@@ -38,6 +38,36 @@ const useCreateAdminMutation = () =>
     },
   });
 
+const useChangePasswordMutation = () =>
+  useMutation({
+    mutationFn: async (data: TChangePassword) =>
+      axiosBaseQuery({
+        url: '/users/change-password',
+        method: 'POST',
+        data: data,
+      }),
+  });
+
+const useForgotPasswordMutation = () =>
+  useMutation({
+    mutationFn: async (data: { email: string }) =>
+      axiosBaseQuery({
+        url: '/users/forgot-password',
+        method: 'POST',
+        data: data,
+      }),
+  });
+
+const useResetPasswordMutation = () =>
+  useMutation({
+    mutationFn: async (data: { newPassword: string }) =>
+      axiosBaseQuery({
+        url: '/users/reset-password',
+        method: 'POST',
+        data: data,
+      }),
+  });
+
 const useGetAllUsersQuery = () =>
   useQuery({
     queryKey: ['users'],
@@ -48,9 +78,85 @@ const useGetAllUsersQuery = () =>
       }),
   });
 
+const useGetAllStoreOwnersQuery = () =>
+  useQuery({
+    queryKey: ['store-owners'],
+    queryFn: async () =>
+      axiosBaseQuery({
+        url: '/users/all-store-owners',
+        method: 'GET',
+      }),
+  });
+
+const useGetAllAdminsQuery = () =>
+  useQuery({
+    queryKey: ['admins'],
+    queryFn: async () =>
+      axiosBaseQuery({
+        url: '/users/all-admins',
+        method: 'GET',
+      }),
+  });
+
+const useGetMyProfileQuery = () =>
+  useQuery({
+    queryKey: ['user'],
+    queryFn: async () =>
+      axiosBaseQuery({
+        url: '/users/my-profile',
+        method: 'GET',
+      }),
+  });
+
+const useGetSingleUserQuery = (userId: string) =>
+  useQuery({
+    queryKey: ['user'],
+    queryFn: async () =>
+      axiosBaseQuery({
+        url: `/users/${userId}`,
+        method: 'GET',
+      }),
+  });
+
+const useUpdateMyProfileMutation = () =>
+  useMutation({
+    mutationFn: async (updatedData: Partial<TSignUp>) =>
+      axiosBaseQuery({
+        url: '/users/my-profile',
+        method: 'PATCH',
+        data: updatedData,
+      }),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'users'] });
+    },
+  });
+
+const useDeleteUserMutation = () =>
+  useMutation({
+    mutationFn: async (userId: string) =>
+      axiosBaseQuery({
+        url: `/users/${userId}`,
+        method: 'DELETE',
+      }),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+
 export {
+  useChangePasswordMutation,
   useCreateAdminMutation,
+  useDeleteUserMutation,
+  useForgotPasswordMutation,
+  useGetAllAdminsQuery,
+  useGetAllStoreOwnersQuery,
   useGetAllUsersQuery,
+  useGetMyProfileQuery,
+  useGetSingleUserQuery,
+  useResetPasswordMutation,
+  useUpdateMyProfileMutation,
   useUserSignInMutation,
   useUserSignUpMutation,
 };
