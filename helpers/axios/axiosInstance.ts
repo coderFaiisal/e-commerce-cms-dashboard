@@ -1,6 +1,6 @@
-import { authKey } from '@/constants/authKey';
+import { accessKey } from '@/constants/authKey';
 import { getNewAccessToken, removeUserInfo } from '@/services/auth.service';
-import { ResponseSuccessType, TGenericErrorResponse } from '@/types/common';
+import { TGenericErrorResponse } from '@/types/common';
 import { getFromCookies, setToCookies } from '@/utils/cookiesStorage';
 import { notify } from '@/utils/customToast';
 import axios from 'axios';
@@ -13,7 +13,7 @@ instance.defaults.timeout = 60000;
 
 instance.interceptors.request.use(
   function (config) {
-    const accessToken = getFromCookies(authKey);
+    const accessToken = getFromCookies(accessKey);
 
     if (accessToken) {
       config.headers.Authorization = accessToken;
@@ -28,14 +28,13 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-expect-error
   function (response) {
-    const responseObject: ResponseSuccessType = {
-      data: response?.data?.data,
-      meta: response?.data?.meta,
-    };
+    // const responseObject: ResponseSuccessType = {
+    //   data: response?.data?.data,
+    //   meta: response?.data?.meta,
+    // };
 
-    return responseObject;
+    return response.data;
   },
 
   async function (error) {
@@ -51,13 +50,13 @@ instance.interceptors.response.use(
 
         config.headers['Authorization'] = accessToken;
 
-        setToCookies(authKey, accessToken);
+        setToCookies(accessKey, accessToken);
 
         return instance(config);
       } else {
-        removeUserInfo(authKey);
+        removeUserInfo(accessKey);
 
-        notify('error', 'Something went wrong!');
+        notify('error', 'Please, sign in again...', 'Something went wrong!');
       }
     } else {
       const responseObject: TGenericErrorResponse = {

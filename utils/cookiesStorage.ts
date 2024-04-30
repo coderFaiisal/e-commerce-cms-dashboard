@@ -1,7 +1,7 @@
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
-export const setToCookies = (key: string, value: string) => {
-  return setCookie(key, value);
+export const setToCookies = (key: string, token: string) => {
+  return setCookie(key, token);
 };
 
 export const getFromCookies = (key: string) => {

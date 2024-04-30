@@ -1,1 +1,2 @@
-export const authKey = 'accessToken';
+export const accessKey = 'accessToken';
+export const refreshKey = 'refreshToken';

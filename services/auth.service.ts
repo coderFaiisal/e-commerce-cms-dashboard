@@ -1,31 +1,33 @@
-import { authKey } from '@/constants/authKey';
+import { accessKey } from '@/constants/authKey';
 import { instance as axiosInstance } from '@/helpers/axios/axiosInstance';
-import { CustomJwtPayload } from '@/types/common';
-import { decodedToken } from '@/utils/jwtDecode';
-
 import { getBaseUrl } from '@/helpers/config/envConfig';
+import { CustomJwtPayload } from '@/types/common';
 import {
   getFromCookies,
   removeFromCookies,
   setToCookies,
 } from '@/utils/cookiesStorage';
+import { decodedToken } from '@/utils/jwtDecode';
 
 export const storeUserInfo = (accessToken: string) => {
-  return setToCookies(authKey, accessToken);
+  return setToCookies(accessKey, accessToken);
 };
 
-export const getClientUserInfo = () => {
-  const authToken = getFromCookies(authKey);
+export const getUserInfo = () => {
+  const authToken = getFromCookies(accessKey);
 
   if (authToken) {
     const decodedData = decodedToken(authToken as string) as CustomJwtPayload;
     return decodedData;
   }
-  return { id: '', role: '' };
+  return {
+    id: null,
+    role: null,
+  };
 };
 
 export const isLoggedIn = () => {
-  const authToken = getFromCookies(authKey);
+  const authToken = getFromCookies(accessKey);
   return !!authToken;
 };
 
@@ -35,7 +37,7 @@ export const removeUserInfo = (key: string) => {
 
 export const getNewAccessToken = async () => {
   return await axiosInstance({
-    url: `${getBaseUrl()}/auth/refresh-token`,
+    url: `${getBaseUrl()}/users/access-token`,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,

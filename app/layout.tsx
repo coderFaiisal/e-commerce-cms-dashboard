@@ -1,4 +1,5 @@
 import { ModalProvider } from '@/providers/ModalProvider';
+import Providers from '@/providers/Providers';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -23,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} no-scrollbar`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <Providers>{children}</Providers>
         </ThemeProvider>
         <Toaster
           position="top-right"

@@ -1,7 +1,5 @@
 export const getBaseUrl = (): string => {
   return (
-    process.env.API_BASE_URL || 'https://timeless-backend.vercel.app/api/v1'
+    process.env.API_BASE_URL || 'https://ecommerce-cms-server.vercel.app/api/v1'
   );
 };
-
-// https://timeless-backend.vercel.app/api/v1
