@@ -1,5 +1,3 @@
-// * Setup all the api end points.
-// * Setup Zustand
+// * Complete authentication works. sign up, sign in, forget pass and reset pass.
 
 // * Complete home page design and implement required checking.
-// * Complete authentication works.

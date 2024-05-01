@@ -9,8 +9,8 @@ const NavBar = () => {
       </Link>
 
       <aside className="flex gap-2 items-center">
-        <Link href={'/signIn'}>
-          <Button>Sign in</Button>
+        <Link href={'/signUp'}>
+          <Button>Sign Up</Button>
         </Link>
         {/* <UserProfile /> */}
       </aside>
