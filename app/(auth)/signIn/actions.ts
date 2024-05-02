@@ -3,7 +3,7 @@
 import { axiosBaseQuery } from '@/helpers/axios/axiosBaseQuery';
 import { TSignIn } from '@/types/user';
 
-export const SignInUser = async (signIpData: TSignIn) => {
+export const signInUser = async (signIpData: TSignIn) => {
   try {
     const result = await axiosBaseQuery({
       url: '/users/sign-in',
