@@ -11,9 +11,14 @@ import { Button } from './ui/button';
 
 LR.FileUploaderRegular.shadowStyles = `
   :host lr-simple-btn button {
-    width: 192px;
-    height: 180px;
-      
+    width: 150px;
+    height: 45px;
+  border: 1px solid gray;
+  background-color: white;
+  }
+
+  :host lr-simple-btn button:hover{
+  background-color: #fafafa;
   }
 `;
 
@@ -23,12 +28,14 @@ type ImageUploadProps = {
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
   value: string[];
+  isMultiple?: boolean;
 };
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   onChange,
   onRemove,
   value,
+  isMultiple = false,
 }) => {
   // const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<LR.OutputFileEntry[]>([]);
@@ -83,46 +90,47 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   return (
     <section>
-      <div className="mb-4 flex items-center gap-2">
-        {value?.map(url => (
-          <div
-            key={url}
-            className="relative w-[200px] h-[200px] rounded-md overflow-hidden"
-          >
-            <div className="z-10 absolute top-2 right-2">
-              <Button
-                type="button"
-                onClick={() => onRemove(url)}
-                variant="destructive"
-                size="sm"
-              >
-                <Trash className="h-4 w-4" />
-              </Button>
-            </div>
-            <Image src={url} fill className="object-cover" alt="upload image" />
+      <div className="my-4">
+        {(value.length === 0 || isMultiple) && (
+          <div>
+            <lr-config
+              ctx-name="my-uploader"
+              pubkey="6e94bf0cc0ee9ed49eeb"
+              maxLocalFileSizeBytes={10000000}
+              imgOnly={true}
+              sourceList="local, url, camera"
+              multiple={false}
+              useCloudImageEditor={false}
+            />
+            <lr-file-uploader-regular
+              ctx-name="my-uploader"
+              css-src={`https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.38.1/web/lr-file-uploader-regular.min.css`}
+              class="my-config"
+            />
           </div>
-        ))}
+        )}
 
-        <div>
-          <lr-config
-            ctx-name="my-uploader"
-            pubkey="6e94bf0cc0ee9ed49eeb"
-            maxLocalFileSizeBytes={10000000}
-            imgOnly={true}
-            sourceList="local, url, camera"
-            multiple={false}
-            useCloudImageEditor={false}
-          />
-
-          <lr-file-uploader-regular
-            ctx-name="my-uploader"
-            css-src={`https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.38.1/web/lr-file-uploader-regular.min.css`}
-            class="my-config"
-          />
-
-          <lr-upload-ctx-provider ref={ctxProviderRef} ctx-name="my-uploader" />
-        </div>
+        <lr-upload-ctx-provider ref={ctxProviderRef} ctx-name="my-uploader" />
       </div>
+
+      {value?.map(url => (
+        <div
+          key={url}
+          className="relative flex items-center gap-2 w-[200px] h-[200px] rounded-md overflow-hidden"
+        >
+          <div className="z-10 absolute top-2 right-2">
+            <Button
+              type="button"
+              onClick={() => onRemove(url)}
+              variant="destructive"
+              size="sm"
+            >
+              <Trash className="h-4 w-4" />
+            </Button>
+          </div>
+          <Image src={url} fill className="object-cover" alt="upload image" />
+        </div>
+      ))}
     </section>
   );
 };
