@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -15,6 +14,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+import { SignInUser } from '@/app/(auth)/signIn/actions';
 import {
   Card,
   CardContent,
@@ -23,50 +23,44 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useUserSignInMutation } from '@/helpers/reactQueryStore/userApi';
 import { storeUserInfo } from '@/services/auth.service';
 import { notify } from '@/utils/customToast';
-import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import LoadingButton from '../loadingButton';
 
 const SignIn = () => {
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const { mutateAsync } = useUserSignInMutation();
 
   const FormSchema = z.object({
     email: z.string().email(),
     password: z.string().min(6, {
-      message: 'At least 6 characters',
+      message: 'At least 6 characters.',
     }),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
   });
 
+  const {
+    formState: { isSubmitting },
+  } = form;
+
   async function onSubmit(signInData: z.infer<typeof FormSchema>) {
-    setLoading(true);
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res: any = await mutateAsync(signInData);
+    const result: any = await SignInUser(signInData);
 
-    if (res && res?.data?.accessToken) {
-      notify('success', 'Sign in successfully.');
-      storeUserInfo(res?.data?.accessToken);
+    if (result && result?.success) {
+      notify('success', result.message);
+
+      const accessToken = result.data.accessToken;
+      storeUserInfo(accessToken);
+
       router.push('/');
-    } else {
-      notify('error', 'Please, try again!', res?.error?.message);
+    } else if (result.error) {
+      notify('error', result.error.message);
     }
-
-    setLoading(false);
   }
 
   return (
@@ -88,7 +82,7 @@ const SignIn = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your Email" type="email" {...field} />
+                      <Input type="email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -101,27 +95,16 @@ const SignIn = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Your Password"
-                        type="password"
-                        {...field}
-                      />
+                      <Input type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <Button disabled={loading} className="w-full">
-                {loading ? (
-                  <>
-                    {'Sign In'}
-                    <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-                  </>
-                ) : (
-                  'Sign In'
-                )}
-              </Button>
+              <LoadingButton type="submit" loading={isSubmitting}>
+                Sign In
+              </LoadingButton>
             </CardContent>
           </form>
         </Form>

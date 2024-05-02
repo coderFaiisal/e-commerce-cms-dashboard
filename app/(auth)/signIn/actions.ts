@@ -1,32 +1,18 @@
 'use server';
 
-import { accessKey, refreshKey } from '@/constants/authKey';
-import { createToken } from '@/helpers/jwt';
-import prisma from '@/lib/prisma';
-import { LoginData } from '@/types/auth';
-import { cookies } from 'next/headers';
+import { axiosBaseQuery } from '@/helpers/axios/axiosBaseQuery';
+import { TSignIn } from '@/types/user';
 
-export const logiUser = async (loginData: LoginData) => {
+export const SignInUser = async (signIpData: TSignIn) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: { email: loginData.email },
+    const result = await axiosBaseQuery({
+      url: '/users/sign-in',
+      method: 'POST',
+      data: signIpData,
     });
 
-    if (!user) return { error: 'User not found!' };
-
-    if (user.password !== loginData.password)
-      return { error: 'Password not matched!' };
-
-    const { id, role } = user;
-
-    const accessToken = createToken({ id, role }, 'access');
-    const refreshToken = createToken({ id, role }, 'refresh');
-
-    cookies().set(accessKey, accessToken);
-    cookies().set(refreshKey, refreshToken);
-
-    return { success: true };
+    return result;
   } catch (error) {
-    return { error: 'Login failed! Try again.' };
+    return { error: { message: 'Sign in failed! Try again.' } };
   }
 };

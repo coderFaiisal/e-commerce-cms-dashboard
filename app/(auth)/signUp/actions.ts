@@ -12,11 +12,11 @@ export const signUpUser = async (signUpData: TSignUp) => {
     });
 
     return result;
-
-    // cookies().set(accessKey, accessToken);
-
-    // return { success: true };
   } catch (error) {
-    return { error: 'Registration failed! Try again.' };
+    return {
+      error: {
+        message: 'Registration failed! Try again.',
+      },
+    };
   }
 };

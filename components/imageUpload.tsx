@@ -89,8 +89,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   }, [uploadedFiles]);
 
   return (
-    <section>
-      <div className="my-4">
+    <>
+      <div className="mt-12 mb-4">
         {(value.length === 0 || isMultiple) && (
           <div>
             <lr-config
@@ -131,7 +131,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           <Image src={url} fill className="object-cover" alt="upload image" />
         </div>
       ))}
-    </section>
+    </>
   );
 };
 
