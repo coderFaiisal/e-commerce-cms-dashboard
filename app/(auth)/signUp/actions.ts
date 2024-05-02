@@ -2,6 +2,7 @@
 
 import { axiosBaseQuery } from '@/helpers/axios/axiosBaseQuery';
 import { TSignUp } from '@/types/user';
+import { revalidateTag } from 'next/cache';
 
 export const signUpUser = async (signUpData: TSignUp) => {
   try {
@@ -10,6 +11,8 @@ export const signUpUser = async (signUpData: TSignUp) => {
       method: 'POST',
       data: signUpData,
     });
+
+    revalidateTag('user');
 
     return result;
   } catch (error) {

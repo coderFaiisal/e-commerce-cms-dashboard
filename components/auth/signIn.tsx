@@ -128,7 +128,7 @@ const SignIn = () => {
 
           <p className="text-center text-sm">
             Don&apos;t have an account?
-            <Link href={'/singUp'}>
+            <Link href={'/signUp'}>
               <span className="font-bold cursor-pointer underline underline-offset-2 ml-2">
                 Sign Up
               </span>

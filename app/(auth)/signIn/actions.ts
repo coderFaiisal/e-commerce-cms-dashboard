@@ -2,6 +2,7 @@
 
 import { axiosBaseQuery } from '@/helpers/axios/axiosBaseQuery';
 import { TSignIn } from '@/types/user';
+import { revalidateTag } from 'next/cache';
 
 export const signInUser = async (signIpData: TSignIn) => {
   try {
@@ -10,6 +11,8 @@ export const signInUser = async (signIpData: TSignIn) => {
       method: 'POST',
       data: signIpData,
     });
+
+    revalidateTag('user');
 
     return result;
   } catch (error) {

@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { forgotPassword } from '@/app/(auth)/forgot/actions';
+import { resetPassword } from '@/app/(auth)/reset/actions';
 import {
   Card,
   CardContent,
@@ -25,11 +25,13 @@ import { notify } from '@/utils/customToast';
 import { useRouter } from 'next/navigation';
 import LoadingButton from '../loadingButton';
 
-const ForgotPassword = () => {
+const ResetPassword = ({ token }: { token: string }) => {
   const router = useRouter();
 
   const FormSchema = z.object({
-    email: z.string().email(),
+    newPassword: z.string().min(6, {
+      message: 'At least 6 characters.',
+    }),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -42,10 +44,10 @@ const ForgotPassword = () => {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: any = await forgotPassword(data);
+    const result: any = await resetPassword({ token, data });
 
     if (result && result?.success) {
-      notify('success', result.message);
+      notify('success', 'Please sign in.', result.message);
 
       router.push('/');
     } else if (result.error) {
@@ -59,17 +61,17 @@ const ForgotPassword = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader className="space-y-1">
-              <CardTitle className="text-xl">Forgot Password?</CardTitle>
-              <CardDescription>Enter your email.</CardDescription>
+              <CardTitle className="text-xl">Reset Password</CardTitle>
+              <CardDescription>Enter your new password.</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
               <FormField
                 control={form.control}
-                name="email"
+                name="newPassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input type="email" {...field} />
+                      <Input type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -77,7 +79,7 @@ const ForgotPassword = () => {
               />
 
               <LoadingButton type="submit" loading={isSubmitting}>
-                Submit
+                Reset
               </LoadingButton>
             </CardContent>
           </form>
@@ -87,4 +89,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;
